@@ -16,6 +16,9 @@ class MyViewController : UIViewController {
         let whiteView = getWhiteView()
         let pinkView = getPinkView()
         
+        // поворот красного представления
+        redView.transform = CGAffineTransform(rotationAngle: .pi/3)
+        
         set(view: greenView, toCenterOfView: redView)
 //        set(view: whiteView, toCenterOfView: redView)
         // позиционируем белое представление с помощью свойства center
@@ -36,19 +39,21 @@ class MyViewController : UIViewController {
     }
     
     private func set(view moveView: UIView, toCenterOfView baseView: UIView) {
-        // размеры вложенного представления
-        let moveViewWidth = moveView.frame.width
-        let moveViewHeight = moveView.frame.height
+//        // размеры вложенного представления
+//        let moveViewWidth = moveView.frame.width
+//        let moveViewHeight = moveView.frame.height
+//
+//        // размеры родительского представления
+//        let baseViewWidth = baseView.bounds.width
+//        let baseViewHeight = baseView.bounds.height
+//
+//        // вычисление и изменение координат
+//        let newXCoordinate = (baseViewWidth - moveViewWidth) / 2
+//        let newYCoordinate = (baseViewHeight - moveViewHeight) / 2
+//
+//        moveView.frame.origin = CGPoint(x: newXCoordinate, y: newYCoordinate)
         
-        // размеры родительского представления
-        let baseViewWidth = baseView.frame.width
-        let baseViewHeight = baseView.frame.height
-        
-        // вычисление и изменение координат
-        let newXCoordinate = (baseViewWidth - moveViewWidth) / 2
-        let newYCoordinate = (baseViewHeight - moveViewHeight) / 2
-        
-        moveView.frame.origin = CGPoint(x: newXCoordinate, y: newYCoordinate)
+        moveView.center = CGPoint(x: baseView.bounds.midX, y: baseView.bounds.midY)
     }
     
     // создание красного представления
