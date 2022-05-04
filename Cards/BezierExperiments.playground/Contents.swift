@@ -2,6 +2,7 @@
   
 import UIKit
 import PlaygroundSupport
+import CoreGraphics
 
 class MyViewController : UIViewController {
     override func loadView() {
@@ -61,6 +62,7 @@ class MyViewController : UIViewController {
         
         path.append(createRect())
         path.append(createOval())
+        path.append(createCurve())
         
         return path
     }
@@ -78,9 +80,16 @@ class MyViewController : UIViewController {
     
     private func createOval() -> UIBezierPath {
         let rect = CGRect(x: 140, y: 100, width: 200, height: 100)
-        
         let path = UIBezierPath(ovalIn: rect)
         
+        return path
+    }
+    
+    private func createCurve() -> UIBezierPath {
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: 10, y: 10))
+        path.addCurve(to: CGPoint(x: 200, y: 200), controlPoint1: CGPoint(x: 200, y: 20), controlPoint2: CGPoint(x: 20, y: 200))
         
         return path
     }
