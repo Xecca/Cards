@@ -66,7 +66,9 @@ class MyViewController : UIViewController {
     
     private func createRect() -> UIBezierPath {
         let rect = CGRect(x: 10, y: 50, width: 200, height: 200)
-        let path = UIBezierPath(rect: rect)
+//        let path = UIBezierPath(rect: rect)
+        // прямоугольник со скругленными углами
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: 30)
         
         return path
     }
