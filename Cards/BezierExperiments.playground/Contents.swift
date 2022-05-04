@@ -32,6 +32,8 @@ class MyViewController : UIViewController {
 //        shaperLayer.fillColor = UIColor.clear.cgColor
         // изменение формы конечных точек фигуры
         shapeLayer.lineCap = .round
+        // делаем фигуру прирывистой
+        shapeLayer.lineDashPattern = [3, 5, 15]
         
         // 4. создание фигуры
         shapeLayer.path = getPath().cgPath
