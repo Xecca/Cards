@@ -30,6 +30,9 @@ class MyViewController : UIViewController {
         shapeLayer.fillColor = nil
 //        // or
 //        shaperLayer.fillColor = UIColor.clear.cgColor
+        // изменение формы конечных точек фигуры
+        shapeLayer.lineCap = .round
+        
         // 4. создание фигуры
         shapeLayer.path = getPath().cgPath
     }
