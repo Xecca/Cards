@@ -25,18 +25,18 @@ class MyViewController : UIViewController {
         // изменение толщины линий
         shapeLayer.lineWidth = 5
         // определения цвета заполнения фигуры
-//        shapeLayer.fillColor = UIColor.green.cgColor
+        shapeLayer.fillColor = UIColor.green.cgColor
 //        // убрать цвет заполнения
-        shapeLayer.fillColor = nil
+//        shapeLayer.fillColor = nil
 //        // or
 //        shaperLayer.fillColor = UIColor.clear.cgColor
         // изменение формы конечных точек фигуры
         shapeLayer.lineCap = .round
         // делаем фигуру прирывистой
         shapeLayer.lineDashPattern = [3, 5, 15]
-        // смещаем начало и конец линии фигуры
-        shapeLayer.strokeStart = 0.1
-        shapeLayer.strokeEnd = 0.2
+//        // смещаем начало и конец линии фигуры
+//        shapeLayer.strokeStart = 0.2
+//        shapeLayer.strokeEnd = 0.8
         // 4. создание фигуры
         shapeLayer.path = getPath().cgPath
     }
@@ -50,6 +50,10 @@ class MyViewController : UIViewController {
         path.addLine(to: CGPoint(x: 150, y: 50))
         // создание второй линии
         path.addLine(to: CGPoint(x: 150, y: 150))
+//        // создание третьей линии
+//        path.addLine(to: CGPoint(x: 50, y: 50))
+        // завершение фигуры
+        path.close()
         
         return path
     }
