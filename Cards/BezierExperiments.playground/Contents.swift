@@ -60,9 +60,11 @@ class MyViewController : UIViewController {
         path.addLine(to: CGPoint(x: 50, y: 170))
         path.close()
         
-        path.append(createRect())
-        path.append(createOval())
-        path.append(createCurve())
+//        path.append(createRect())
+//        path.append(createOval())
+//        path.append(createCurve())
+        path.move(to: CGPoint(x: 100, y: 250))
+        path.append(createCookHat())
         
         return path
     }
@@ -90,6 +92,24 @@ class MyViewController : UIViewController {
         
         path.move(to: CGPoint(x: 10, y: 10))
         path.addCurve(to: CGPoint(x: 200, y: 200), controlPoint1: CGPoint(x: 200, y: 20), controlPoint2: CGPoint(x: 20, y: 200))
+        
+        return path
+    }
+    
+    private func createCookHat() -> UIBezierPath {
+        let path = UIBezierPath()
+        
+//        path.move(to: CGPoint(x: 100, y: 100))
+        path.addArc(withCenter: CGPoint(x: 150, y: 100), radius: 50, startAngle: .pi, endAngle: 0, clockwise: true)
+        path.addLine(to: CGPoint(x: 220, y: 100))
+        path.addArc(withCenter: CGPoint(x: 220, y: 150), radius: 50, startAngle: .pi*3/2, endAngle: .pi/2, clockwise: true)
+        path.addLine(to: CGPoint(x: 200, y: 200))
+        path.addLine(to: CGPoint(x: 200, y: 260))
+        path.addLine(to: CGPoint(x: 100, y: 260))
+        path.addLine(to: CGPoint(x: 100, y: 200))
+        path.addLine(to: CGPoint(x: 80, y: 200))
+        path.addArc(withCenter: CGPoint(x: 80, y: 150), radius: 50, startAngle: .pi/2, endAngle: .pi*3/2, clockwise: true)
+        path.close()
         
         return path
     }
