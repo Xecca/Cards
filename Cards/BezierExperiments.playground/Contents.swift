@@ -46,17 +46,17 @@ class MyViewController : UIViewController {
     }
     
     private func getPath() -> UIBezierPath {
-        // 1
         let path = UIBezierPath()
-        // 2
+
+        // создание первого треугольника
         path.move(to: CGPoint(x: 50, y: 50))
-        // 3
         path.addLine(to: CGPoint(x: 150, y: 50))
-        // создание второй линии
         path.addLine(to: CGPoint(x: 150, y: 150))
-//        // создание третьей линии
-//        path.addLine(to: CGPoint(x: 50, y: 50))
-        // завершение фигуры
+        path.close()
+        // создание второго треугольника
+        path.move(to: CGPoint(x: 50, y: 70))
+        path.addLine(to: CGPoint(x: 150, y: 170))
+        path.addLine(to: CGPoint(x: 50, y: 170))
         path.close()
         
         return path
