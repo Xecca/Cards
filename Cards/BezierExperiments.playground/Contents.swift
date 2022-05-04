@@ -34,7 +34,9 @@ class MyViewController : UIViewController {
         shapeLayer.lineCap = .round
         // делаем фигуру прирывистой
         shapeLayer.lineDashPattern = [3, 5, 15]
-        
+        // смещаем начало и конец линии фигуры
+        shapeLayer.strokeStart = 0.1
+        shapeLayer.strokeEnd = 0.2
         // 4. создание фигуры
         shapeLayer.path = getPath().cgPath
     }
