@@ -60,6 +60,7 @@ class MyViewController : UIViewController {
         path.close()
         
         path.append(createRect())
+        path.append(createOval())
         
         return path
     }
@@ -68,7 +69,18 @@ class MyViewController : UIViewController {
         let rect = CGRect(x: 10, y: 50, width: 200, height: 200)
 //        let path = UIBezierPath(rect: rect)
         // прямоугольник со скругленными углами
-        let path = UIBezierPath(roundedRect: rect, cornerRadius: 30)
+//        let path = UIBezierPath(roundedRect: rect, cornerRadius: 30)
+        // скруглить только необходимые углы
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: [.bottomRight, .topLeft], cornerRadii: CGSize(width: 30, height: 0))
+        
+        return path
+    }
+    
+    private func createOval() -> UIBezierPath {
+        let rect = CGRect(x: 140, y: 100, width: 200, height: 100)
+        
+        let path = UIBezierPath(ovalIn: rect)
+        
         
         return path
     }
