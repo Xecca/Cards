@@ -24,7 +24,8 @@ class MyViewController : UIViewController {
         shapeLayer.strokeColor = UIColor.gray.cgColor
         // изменение толщины линий
         shapeLayer.lineWidth = 5
-        
+        // определения цвета заполнения фигуры
+        shapeLayer.fillColor = UIColor.green.cgColor
         // 4. создание фигуры
         shapeLayer.path = getPath().cgPath
     }
