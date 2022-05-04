@@ -59,6 +59,15 @@ class MyViewController : UIViewController {
         path.addLine(to: CGPoint(x: 50, y: 170))
         path.close()
         
+        path.append(createRect())
+        
+        return path
+    }
+    
+    private func createRect() -> UIBezierPath {
+        let rect = CGRect(x: 10, y: 50, width: 200, height: 200)
+        let path = UIBezierPath(rect: rect)
+        
         return path
     }
 }
