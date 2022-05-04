@@ -37,6 +37,10 @@ class MyViewController : UIViewController {
 //        // смещаем начало и конец линии фигуры
 //        shapeLayer.strokeStart = 0.2
 //        shapeLayer.strokeEnd = 0.8
+        // изменение стиля соединительных точек
+        shapeLayer.lineJoin = .bevel
+        
+        
         // 4. создание фигуры
         shapeLayer.path = getPath().cgPath
     }
