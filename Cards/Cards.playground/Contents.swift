@@ -22,10 +22,17 @@ class MyViewController : UIViewController {
         // игральная карточка рубашкой вверх
         let firstCardView = CardView<CircleShapeLayer>(frame: CGRect(x: 0, y: 0, width: 120, height: 150), color: .red)
         self.view.addSubview(firstCardView)
+        firstCardView.flipCompletionHandler = { card in
+            card.superview?.bringSubviewToFront(card)
+            
+        }
         
         // игральная карточка лицевой стороной вверх
         let secondCardView = CardView<CircleShapeLayer>(frame: CGRect(x: 200, y: 0, width: 120, height: 150), color: UIColor.red)
         self.view.addSubview(secondCardView)
+        secondCardView.flipCompletionHandler = { card in
+            card.superview?.bringSubviewToFront(card)
+        }
         secondCardView.isFlipped = true
     }
 }
@@ -283,7 +290,10 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         let toView = isFlipped ? backSideView : frontSideView
         
         // запускаем анимированный переход
-        UIView.transition(from: fromView, to: toView, duration: 0.5, options: [.transitionFlipFromTop], completion: nil)
+        UIView.transition(from: fromView, to: toView, duration: 0.5, options: [.transitionFlipFromTop], completion: { _ in
+            // обработчик переворота
+            self.flipCompletionHandler?(self)
+        })
         isFlipped = !isFlipped
     }
     
@@ -299,8 +309,8 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         anchorPoint.x = touches.first!.location(in: window).x - frame.minX
         anchorPoint.y = touches.first!.location(in: window).y - frame.minY
         
-        // сохраняем исходные координаты
-        startTouchPoint = frame.origin
+//        // сохраняем исходные координаты
+//        startTouchPoint = frame.origin
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -309,9 +319,9 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // анимировано возвращаем карточку в исходную позицию
-        UIView.animate(withDuration: 0.5) { // 0.5 секунд
-            self.frame.origin = self.startTouchPoint
+//        // анимировано возвращаем карточку в исходную позицию
+//        UIView.animate(withDuration: 0.5) { // 0.5 секунд
+//            self.frame.origin = self.startTouchPoint
             
             // переворачиваем представление
             if self.transform.isIdentity {
@@ -319,7 +329,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
             } else {
                 self.transform = .identity
             }
-        }
+//        }
         flip()
     }
     
