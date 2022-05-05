@@ -286,6 +286,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         anchorPoint.y = touches.first!.location(in: window).y - frame.minY
         
         // сохраняем исходные координаты
+        startTouchPoint = frame.origin
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -293,9 +294,12 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         self.frame.origin.y = touches.first!.location(in: window).y - anchorPoint.y
     }
 
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        print("touchesEnded Card")
-//    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // анимировано возвращаем карточку в исходную позицию
+        UIView.animate(withDuration: 0.5) {
+            self.frame.origin = self.startTouchPoint
+        }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
