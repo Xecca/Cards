@@ -309,8 +309,8 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         anchorPoint.x = touches.first!.location(in: window).x - frame.minX
         anchorPoint.y = touches.first!.location(in: window).y - frame.minY
         
-//        // сохраняем исходные координаты
-//        startTouchPoint = frame.origin
+        // сохраняем исходные координаты
+        startTouchPoint = frame.origin
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -322,15 +322,18 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
 //        // анимировано возвращаем карточку в исходную позицию
 //        UIView.animate(withDuration: 0.5) { // 0.5 секунд
 //            self.frame.origin = self.startTouchPoint
-            
-            // переворачиваем представление
-            if self.transform.isIdentity {
-                self.transform = CGAffineTransform(rotationAngle: .pi)
-            } else {
-                self.transform = .identity
-            }
 //        }
-        flip()
+        
+        // добавим проверку перемещения карточки
+        if self.frame.origin == startTouchPoint {
+//            // переворачиваем представление
+//            if self.transform.isIdentity {
+//                self.transform = CGAffineTransform(rotationAngle: .pi)
+//            } else {
+//                self.transform = .identity
+//            }
+            flip()
+        }
     }
     
     required init?(coder: NSCoder) {
