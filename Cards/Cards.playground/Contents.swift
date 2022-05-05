@@ -270,7 +270,13 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     }
     
     func flip() {
+        // определяем, между какими представлениями осуществить переход
+        let fromView = isFlipped ? frontSideView : backSideView
+        let toView = isFlipped ? backSideView : frontSideView
         
+        // запускаем анимированный переход
+        UIView.transition(from: fromView, to: toView, duration: 0.5, options: [.transitionFlipFromTop], completion: nil)
+        isFlipped = !isFlipped
     }
     
     // MARK: Events
@@ -306,6 +312,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
                 self.transform = .identity
             }
         }
+        flip()
     }
     
     required init?(coder: NSCoder) {
