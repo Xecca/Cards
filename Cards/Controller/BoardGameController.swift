@@ -19,21 +19,29 @@ class BoardGameController: UIViewController {
     override func loadView() {
         super.loadView()
         
+        print("loadView")
         // добавляем кнопку на сцену
         view.addSubview(startButtonView)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//
+//    }
     
     private func getStartButtonView() -> UIButton {
         // 1. Создаем кнопку
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
         // 2. Изменяем положение кнопки
         button.center.x = view.center.x
+        
+        // получаем доступ к текущему окну
+        let window = UIApplication.shared.windows[0]
+        // определяем отступ сверху от границ окна до Safe Area
+        let topPadding = window.safeAreaInsets.top
+        // устанавливаем координату Y кнопки в соответствии с отступом
+        button.frame.origin.y = topPadding
         
         // 3. Настраиваем внешний вид кнопки
         // устанавливаем текст
