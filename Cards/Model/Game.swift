@@ -25,4 +25,11 @@ class Game {
         self.cards = cards
     }
     
+    // проверка эквивалентности карточек
+    func checkCards(_ firstCard: Card, _ secondCard: Card) -> Bool {
+        if firstCard == secondCard {
+            return true
+        }
+        return false
+    }
 }
