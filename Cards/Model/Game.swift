@@ -5,4 +5,24 @@
 //  Created by Dreik on 5/5/22.
 //
 
-import Foundation
+import UIKit
+
+class Game {
+    // количество пар уникальных карточек
+    var cardsCount = 0
+    // массив сгенерированных карточек
+    var cards = [Card]()
+    
+    // генерация массива случайных карт
+    func generateCards() {
+        // генерируем новый массив карточек
+        var cards = [Card]()
+        
+        for _ in 0...cardsCount {
+            let randomElement = (type: CardType.allCases.randomElement()!, color: CardColor.allCases.randomElement()!)
+            cards.append(randomElement)
+        }
+        self.cards = cards
+    }
+    
+}

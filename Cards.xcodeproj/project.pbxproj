@@ -15,6 +15,8 @@
 		95C9274B28204CCC00F7738E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95C9274A28204CCC00F7738E /* Assets.xcassets */; };
 		95C9274E28204CCC00F7738E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95C9274C28204CCC00F7738E /* LaunchScreen.storyboard */; };
 		95FF582828245E48007F8C1E /* BoardGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF582728245E48007F8C1E /* BoardGameController.swift */; };
+		95FF582A2824604F007F8C1E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF58292824604F007F8C1E /* Card.swift */; };
+		95FF582C28246473007F8C1E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF582B28246473007F8C1E /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		95C9274D28204CCC00F7738E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95C9274F28204CCC00F7738E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95FF582728245E48007F8C1E /* BoardGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameController.swift; sourceTree = "<group>"; };
+		95FF58292824604F007F8C1E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		95FF582B28246473007F8C1E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 		95617BF128245A76005AB9D2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				95FF58292824604F007F8C1E /* Card.swift */,
+				95FF582B28246473007F8C1E /* Game.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,6 +183,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				95FF582828245E48007F8C1E /* BoardGameController.swift in Sources */,
+				95FF582A2824604F007F8C1E /* Card.swift in Sources */,
+				95FF582C28246473007F8C1E /* Game.swift in Sources */,
 				95617BF528245A92005AB9D2 /* Cards.swift in Sources */,
 				95C9274228204CC700F7738E /* AppDelegate.swift in Sources */,
 				95C9274428204CC700F7738E /* SceneDelegate.swift in Sources */,
