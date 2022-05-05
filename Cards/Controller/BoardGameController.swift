@@ -16,6 +16,13 @@ class BoardGameController: UIViewController {
     // сущность "Игра"
     lazy var game: Game = startNewGame()
     
+    override func loadView() {
+        super.loadView()
+        
+        // добавляем кнопку на сцену
+        view.addSubview(startButtonView)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
