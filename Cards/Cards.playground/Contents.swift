@@ -296,8 +296,15 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // анимировано возвращаем карточку в исходную позицию
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.5) { // 0.5 секунд
             self.frame.origin = self.startTouchPoint
+            
+            // переворачиваем представление
+            if self.transform.isIdentity {
+                self.transform = CGAffineTransform(rotationAngle: .pi)
+            } else {
+                self.transform = .identity
+            }
         }
     }
     
