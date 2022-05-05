@@ -9,13 +9,50 @@ import UIKit
 
 class BoardGameController: UIViewController {
 
+    // кнопка для запуска/перезапуска игры
+    lazy var startButtonView = getStartButtonView()
+    // количество пар уникальных карточек
+    var cardsPairsCounts = 8
+    // сущность "Игра"
+    lazy var game: Game = startNewGame()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
     }
     
-
+    private func getStartButtonView() -> UIButton {
+        // 1. Создаем кнопку
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+        // 2. Изменяем положение кнопки
+        button.center.x = view.center.x
+        
+        // 3. Настраиваем внешний вид кнопки
+        // устанавливаем текст
+        button.setTitle("Start game", for: .normal)
+        // устанавливаем цвет текста для обычного (не нажатого) состояния
+        button.setTitleColor(.black, for: .normal)
+        // устанавливаем цвет текста для нажатого состояния
+        button.setTitleColor(.gray, for: .highlighted)
+        // устанавливаем фоновый цвет
+        button.backgroundColor = .systemGray4
+        // скругляем углы
+        button.layer.cornerRadius = 10
+        
+        return button
+    }
+    
+    private func startNewGame() -> Game {
+        let game = Game()
+        
+        game.cardsCount = self.cardsPairsCounts
+        game.generateCards()
+        
+        return game
+    }
+    
+    
     /*
     // MARK: - Navigation
 
