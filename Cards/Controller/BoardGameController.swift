@@ -15,13 +15,16 @@ class BoardGameController: UIViewController {
     var cardsPairsCounts = 8
     // сущность "Игра"
     lazy var game: Game = startNewGame()
+    // игровое поле
+    lazy var boardGameView = getBoardGameView()
     
     override func loadView() {
         super.loadView()
         
-        print("loadView")
         // добавляем кнопку на сцену
         view.addSubview(startButtonView)
+        // добавляем игровое поле на сцену
+        view.addSubview(boardGameView)
     }
     
 //    override func viewDidLoad() {
@@ -31,6 +34,32 @@ class BoardGameController: UIViewController {
 //    }
     
 
+    private func getBoardGameView() -> UIView {
+        // отступ игрового поля от ближайших элементов
+        let margin: CGFloat = 10
+        let boardView = UIView()
+        
+        // указываем координаты
+        // x
+        boardView.frame.origin.x = margin
+        // y
+        let window = UIApplication.shared.windows[0]
+        let topPadding = window.safeAreaInsets.top
+        boardView.frame.origin.y = topPadding + startButtonView.frame.height + margin
+        
+        // рассчитаем ширину
+        boardView.frame.size.width = UIScreen.main.bounds.width - margin * 2
+        // рассчитываем высоту
+        // с учетом нижнего отступа
+        let bottomPadding = window.safeAreaInsets.bottom
+        boardView.frame.size.height = UIScreen.main.bounds.height - boardView.frame.origin.y - margin - bottomPadding
+        
+        // изменяем стиль игрового поля
+        boardView.layer.cornerRadius = 5
+        boardView.backgroundColor = UIColor(red: 0.1, green: 0.9, blue: 0.1, alpha: 0.3)
+        
+        return boardView
+    }
     
     private func getStartButtonView() -> UIButton {
         // 1. Создаем кнопку
@@ -58,11 +87,11 @@ class BoardGameController: UIViewController {
         button.layer.cornerRadius = 10
         
         // подключаем обработчик нажатия на кнопку
-        button.addTarget(nil, action: #selector(startGame), for: .touchUpInside)
-        // более новая версия обработчика
-        button.addAction(UIAction(title: "", handler: { action in
-            print("Button was pressed")
-        }), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(startGame(_:)), for: .touchUpInside)
+//        // более новая версия обработчика, аналог .addTarget
+//        button.addAction(UIAction(title: "", handler: { action in
+//            print("Button was pressed")
+//        }), for: .touchUpInside)
         
         
         return button
