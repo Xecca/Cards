@@ -17,6 +17,17 @@ class BoardGameController: UIViewController {
     lazy var game: Game = startNewGame()
     // игровое поле
     lazy var boardGameView = getBoardGameView()
+    // размеры карточек
+    private var cardSize: CGSize {
+        CGSize(width: 80, height: 120)
+    }
+    // предельные координаты размещения карточки
+    private var carMaxXCoordinate: Int {
+        Int(boardGameView.frame.width - cardSize.width)
+    }
+    private var cardMaxYCoordinate: Int {
+        Int(boardGameView.frame.height - cardSize.height)
+    }
     
     override func loadView() {
         super.loadView()
@@ -27,12 +38,34 @@ class BoardGameController: UIViewController {
         view.addSubview(boardGameView)
     }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//
-//    }
-    
+    // генерация массива карточек на основе данных Модели
+    private func getCardsBy(modelData: [Card]) -> [UIView] {
+        // хранилище для представлений карточек
+        var cardViews = [UIView]()
+        // фабрика карточек
+        let cardViewFactory = CardViewFactory()
+        // перебираем массив карточек в Модели
+        for (index, modelCard) in modelData.enumerated() {
+            // добавляем первый экземпляр карты
+            let cardOne = cardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
+            cardOne.tag = index
+            cardViews.append(cardOne)
+            
+            // добавляем второй экземпляр карты
+            let cardTwo = cardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
+            cardTwo.tag = index
+            cardViews.append(cardTwo)
+        }
+        // добавляем всем картам обработчик переворота
+        for card in cardViews {
+            (card as! FlippableView).flipCompletionHandler = { flippedCard in
+                // переносим карточку вверх иерархии
+                flippedCard.superview?.bringSubviewToFront(flippedCard)
+            }
+        }
+        
+        return cardViews
+    }
 
     private func getBoardGameView() -> UIView {
         // отступ игрового поля от ближайших элементов
