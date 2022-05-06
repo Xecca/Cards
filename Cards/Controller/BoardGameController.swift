@@ -7,8 +7,7 @@
 
 import UIKit
 
-class BoardGameController: UIViewController {
-
+class BoardGameController: UIViewController {    
     // кнопка для запуска/перезапуска игры
     lazy var startButtonView = getStartButtonView()
     // кнопка для переворота всех карточек
@@ -137,7 +136,7 @@ class BoardGameController: UIViewController {
         boardView.frame.origin.x = margin
         // y
         let window = UIApplication.shared.windows[0]
-        let topPadding = window.safeAreaInsets.top
+        let topPadding = window.safeAreaInsets.top + 50
         boardView.frame.origin.y = topPadding + startButtonView.frame.height + margin
         
         // рассчитаем ширину
@@ -163,7 +162,7 @@ class BoardGameController: UIViewController {
         // получаем доступ к текущему окну
         let window = UIApplication.shared.windows[0]
         // определяем отступ сверху от границ окна до Safe Area
-        let topPadding = window.safeAreaInsets.top
+        let topPadding = window.safeAreaInsets.top + 50
         // устанавливаем координату Y кнопки в соответствии с отступом
         button.frame.origin.y = topPadding
         
@@ -189,7 +188,7 @@ class BoardGameController: UIViewController {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
         button.center.x = view.center.x + 120
         let window = UIApplication.shared.windows[0]
-        let topPadding = window.safeAreaInsets.top
+        let topPadding = window.safeAreaInsets.top + 50
         button.frame.origin.y = topPadding
         
         button.setTitle("Flip all cards", for: .normal)
