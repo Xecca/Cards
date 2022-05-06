@@ -27,8 +27,6 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     private let margin: Int = 10
     // радиус скругления
     var cornerRadius = 20
-    
-    
     // представление с лицевой стороны карты
     lazy var frontSideView: UIView = self.getFrontSideView()
     // представление с обратной стороны карты
@@ -123,6 +121,15 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         isFlipped = !isFlipped
     }
     
+    func rotateView() {
+        // переворачиваем представление
+        if self.transform.isIdentity {
+            self.transform = CGAffineTransform(rotationAngle: .pi)
+        } else {
+            self.transform = .identity
+        }
+    }
+    
     // MARK: Events
     
     // точка привязки
@@ -130,6 +137,30 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     // исходные координаты игральной карты
     private var startTouchPoint: CGPoint!
     
+    // возвращение карты в пределы игрового поля
+    func checkBoardersAndReturnCardBack() {
+        if self.frame.origin.x + self.frame.width > superview!.frame.width {
+            UIView.animate(withDuration: 0.5) {
+                self.frame.origin.x = self.superview!.frame.width - self.frame.width
+            }
+        }
+        if self.frame.origin.x < superview!.frame.origin.x {
+            UIView.animate(withDuration: 0.5) {
+                self.frame.origin.x = self.superview!.frame.origin.x - CGFloat(self.margin)
+            }
+        }
+        if self.frame.origin.y + self.frame.height > superview!.frame.height {
+            UIView.animate(withDuration: 0.5) {
+                self.frame.origin.y = self.superview!.frame.height - self.frame.height
+            }
+        }
+        if self.frame.origin.y + self.frame.height < superview!.frame.origin.y {
+            UIView.animate(withDuration: 0.5) {
+                self.frame.origin.y = 0
+            }
+        }
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // изменяем координаты точки привязки
         anchorPoint.x = touches.first!.location(in: window).x - frame.minX
@@ -143,21 +174,13 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         self.frame.origin.x = touches.first!.location(in: window).x - anchorPoint.x
         self.frame.origin.y = touches.first!.location(in: window).y - anchorPoint.y
     }
-
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        // анимировано возвращаем карточку в исходную позицию
-//        UIView.animate(withDuration: 0.5) { // 0.5 секунд
-//            self.frame.origin = self.startTouchPoint
-//        }
+        // возвращение карты в пределы игрового поля
+        checkBoardersAndReturnCardBack()
         
         // добавим проверку перемещения карточки
         if self.frame.origin == startTouchPoint {
-//            // переворачиваем представление
-//            if self.transform.isIdentity {
-//                self.transform = CGAffineTransform(rotationAngle: .pi)
-//            } else {
-//                self.transform = .identity
-//            }
             flip()
         }
     }
