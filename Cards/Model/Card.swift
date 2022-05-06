@@ -17,7 +17,7 @@ enum CardType: CaseIterable {
 
 // цвета карт
 enum CardColor: CaseIterable {
-    case req
+    case red
     case green
     case black
     case gray

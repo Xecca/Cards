@@ -17,6 +17,7 @@
 		95FF582828245E48007F8C1E /* BoardGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF582728245E48007F8C1E /* BoardGameController.swift */; };
 		95FF582A2824604F007F8C1E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF58292824604F007F8C1E /* Card.swift */; };
 		95FF582C28246473007F8C1E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF582B28246473007F8C1E /* Game.swift */; };
+		95FF582F28251330007F8C1E /* CardViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF582E28251330007F8C1E /* CardViewFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		95FF582728245E48007F8C1E /* BoardGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameController.swift; sourceTree = "<group>"; };
 		95FF58292824604F007F8C1E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		95FF582B28246473007F8C1E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		95FF582E28251330007F8C1E /* CardViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		95C9274028204CC700F7738E /* Cards */ = {
 			isa = PBXGroup;
 			children = (
+				95FF582D28251316007F8C1E /* Helpers */,
 				95617BF128245A76005AB9D2 /* Model */,
 				95617BF028245A71005AB9D2 /* View */,
 				95FF582628245E19007F8C1E /* Controller */,
@@ -109,6 +112,14 @@
 				95FF582728245E48007F8C1E /* BoardGameController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		95FF582D28251316007F8C1E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				95FF582E28251330007F8C1E /* CardViewFactory.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +198,7 @@
 				95FF582C28246473007F8C1E /* Game.swift in Sources */,
 				95617BF528245A92005AB9D2 /* Cards.swift in Sources */,
 				95C9274228204CC700F7738E /* AppDelegate.swift in Sources */,
+				95FF582F28251330007F8C1E /* CardViewFactory.swift in Sources */,
 				95C9274428204CC700F7738E /* SceneDelegate.swift in Sources */,
 				95617BF328245A89005AB9D2 /* Shapes.swift in Sources */,
 			);
