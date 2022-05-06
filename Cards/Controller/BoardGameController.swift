@@ -22,13 +22,14 @@ class BoardGameController: UIViewController {
         CGSize(width: 80, height: 120)
     }
     // предельные координаты размещения карточки
-    private var carMaxXCoordinate: Int {
+    private var cardMaxXCoordinate: Int {
         Int(boardGameView.frame.width - cardSize.width)
     }
     private var cardMaxYCoordinate: Int {
         Int(boardGameView.frame.height - cardSize.height)
     }
     var cardViews = [UIView]()
+    private var flippedCards = [UIView]()
     
     override func loadView() {
         super.loadView()
@@ -48,7 +49,7 @@ class BoardGameController: UIViewController {
         // перебираем карточки
         for card in cardViews {
             // для каждой карточки генерируем случайные координаты
-            let randomXCoordinate = Int.random(in: 0...cardMaxYCoordinate)
+            let randomXCoordinate = Int.random(in: 0...cardMaxXCoordinate)
             let randomYCoordinate = Int.random(in: 0...cardMaxYCoordinate)
             card.frame.origin = CGPoint(x: randomXCoordinate, y: randomYCoordinate)
             // размещаем карточку на игровом поле
@@ -76,9 +77,45 @@ class BoardGameController: UIViewController {
         }
         // добавляем всем картам обработчик переворота
         for card in cardViews {
-            (card as! FlippableView).flipCompletionHandler = { flippedCard in
+            (card as! FlippableView).flipCompletionHandler = { [self] flippedCard in
                 // переносим карточку вверх иерархии
                 flippedCard.superview?.bringSubviewToFront(flippedCard)
+                
+                // добавляем или удаляем карточку
+                if flippedCard.isFlipped {
+                    self.flippedCards.append(flippedCard)
+                } else {
+                    if let cardIndex = self.flippedCards.firstIndex(of: flippedCard) {
+                        self.flippedCards.remove(at: cardIndex)
+                    }
+                }
+                
+                // елси перевернуто 2 карточки
+                if self.flippedCards.count == 2 {
+                    // получаем карточки из данных модели
+                    let firstCard = game.cards[self.flippedCards.first!.tag]
+                    let secondCard = game.cards[self.flippedCards.last!.tag]
+                    
+                    // если карточки одинаковые
+                    if game.checkCards(firstCard, secondCard) {
+                        // сперва анимировано скрываем их
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.flippedCards.first!.layer.opacity = 0
+                            self.flippedCards.last!.layer.opacity = 0
+                            // после чего удаляем из иерархии
+                        }, completion: { _ in
+                            self.flippedCards.first!.removeFromSuperview()
+                            self.flippedCards.last!.removeFromSuperview()
+                            self.flippedCards = []
+                        })
+                        // в ином случае
+                    } else {
+                        // переворачиваем карточки рубашкой вверх
+                        for card in self.flippedCards {
+                            (card as! FlippableView).flip()
+                        }
+                    }
+                }
             }
         }
         
