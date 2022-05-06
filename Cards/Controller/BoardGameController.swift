@@ -7,13 +7,13 @@
 
 import UIKit
 
-class BoardGameController: UIViewController {    
+class BoardGameController: UIViewController {
     // кнопка для запуска/перезапуска игры
     lazy var startButtonView = getStartButtonView()
     // кнопка для переворота всех карточек
     lazy var flipButtonView = getflipAllCardsButtonView()
     // количество пар уникальных карточек
-    var cardsPairsCounts = 8
+    lazy var cardsPairsCounts = setPairsCardsCount()
     // сущность "Игра"
     lazy var game: Game = startNewGame()
     // игровое поле
@@ -41,6 +41,18 @@ class BoardGameController: UIViewController {
         view.addSubview(flipButtonView)
         // добавляем игровое поле на сцену
         view.addSubview(boardGameView)
+    }
+    
+    private func setPairsCardsCount() -> Int {
+        if UserDefaults.standard.object(forKey: "Pairs cards count") == nil {
+            let startPairsCardsCount = 4
+            
+            UserDefaults.standard.set(startPairsCardsCount, forKey: "Pairs cards count")
+            
+            return startPairsCardsCount
+        }
+        
+        return Int(UserDefaults.standard.object(forKey: "Pairs cards count") as! Double)
     }
     
     private func placeCardsOnBoard(_ cards: [UIView]) {
@@ -108,7 +120,7 @@ class BoardGameController: UIViewController {
                             self.flippedCards.last!.layer.opacity = 0
                             // после чего удаляем из иерархии
                         }, completion: { _ in
-                            self.flippedCards.first!.removeFromSuperview()
+                            self.flippedCards.first!.removeFromSuperview()  // иногда здесь вылетает ошибка
                             self.flippedCards.last!.removeFromSuperview()
                             self.flippedCards = []
                         })

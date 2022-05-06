@@ -10,6 +10,7 @@
 		95617BF328245A89005AB9D2 /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95617BF228245A89005AB9D2 /* Shapes.swift */; };
 		95617BF528245A92005AB9D2 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95617BF428245A92005AB9D2 /* Cards.swift */; };
 		9577DF8828259A4C007607E9 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577DF8728259A4C007607E9 /* MainMenuViewController.swift */; };
+		9577DF8A2825AA47007607E9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577DF892825AA47007607E9 /* SettingsController.swift */; };
 		95C9274228204CC700F7738E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C9274128204CC700F7738E /* AppDelegate.swift */; };
 		95C9274428204CC700F7738E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C9274328204CC700F7738E /* SceneDelegate.swift */; };
 		95C9274928204CC700F7738E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95C9274728204CC700F7738E /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		95617BF228245A89005AB9D2 /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 		95617BF428245A92005AB9D2 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		9577DF8728259A4C007607E9 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		9577DF892825AA47007607E9 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		95C9273E28204CC700F7738E /* Cards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95C9274128204CC700F7738E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95C9274328204CC700F7738E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,8 +113,9 @@
 		95FF582628245E19007F8C1E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				95FF582728245E48007F8C1E /* BoardGameController.swift */,
 				9577DF8728259A4C007607E9 /* MainMenuViewController.swift */,
+				9577DF892825AA47007607E9 /* SettingsController.swift */,
+				95FF582728245E48007F8C1E /* BoardGameController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				95FF582C28246473007F8C1E /* Game.swift in Sources */,
 				95617BF528245A92005AB9D2 /* Cards.swift in Sources */,
 				95C9274228204CC700F7738E /* AppDelegate.swift in Sources */,
+				9577DF8A2825AA47007607E9 /* SettingsController.swift in Sources */,
 				95FF582F28251330007F8C1E /* CardViewFactory.swift in Sources */,
 				95C9274428204CC700F7738E /* SceneDelegate.swift in Sources */,
 				95617BF328245A89005AB9D2 /* Shapes.swift in Sources */,
