@@ -30,6 +30,8 @@ class BoardGameController: UIViewController {
 //
 //    }
     
+
+    
     private func getStartButtonView() -> UIButton {
         // 1. Создаем кнопку
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -55,7 +57,19 @@ class BoardGameController: UIViewController {
         // скругляем углы
         button.layer.cornerRadius = 10
         
+        // подключаем обработчик нажатия на кнопку
+        button.addTarget(nil, action: #selector(startGame), for: .touchUpInside)
+        // более новая версия обработчика
+        button.addAction(UIAction(title: "", handler: { action in
+            print("Button was pressed")
+        }), for: .touchUpInside)
+        
+        
         return button
+    }
+
+    @objc func startGame(_ sender: UIButton) {
+        print("button was pressed")
     }
     
     private func startNewGame() -> Game {
