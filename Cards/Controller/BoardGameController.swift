@@ -11,6 +11,8 @@ class BoardGameController: UIViewController {
 
     // кнопка для запуска/перезапуска игры
     lazy var startButtonView = getStartButtonView()
+    // кнопка для переворота всех карточек
+    lazy var flipButtonView = getflipAllCardsButtonView()
     // количество пар уникальных карточек
     var cardsPairsCounts = 8
     // сущность "Игра"
@@ -36,6 +38,8 @@ class BoardGameController: UIViewController {
         
         // добавляем кнопку на сцену
         view.addSubview(startButtonView)
+        // добавляем кнопку переворота на сцену
+        view.addSubview(flipButtonView)
         // добавляем игровое поле на сцену
         view.addSubview(boardGameView)
     }
@@ -45,6 +49,7 @@ class BoardGameController: UIViewController {
         for card in cardViews {
             card.removeFromSuperview()
         }
+        flippedCards = []
         cardViews = cards
         // перебираем карточки
         for card in cardViews {
@@ -151,7 +156,7 @@ class BoardGameController: UIViewController {
     
     private func getStartButtonView() -> UIButton {
         // 1. Создаем кнопку
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
         // 2. Изменяем положение кнопки
         button.center.x = view.center.x
         
@@ -176,13 +181,45 @@ class BoardGameController: UIViewController {
         
         // подключаем обработчик нажатия на кнопку
         button.addTarget(nil, action: #selector(startGame(_:)), for: .touchUpInside)
-//        // более новая версия обработчика, аналог .addTarget
-//        button.addAction(UIAction(title: "", handler: { action in
-//            print("Button was pressed")
-//        }), for: .touchUpInside)
-        
         
         return button
+    }
+    
+    private func getflipAllCardsButtonView() -> UIButton {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
+        button.center.x = view.center.x + 120
+        let window = UIApplication.shared.windows[0]
+        let topPadding = window.safeAreaInsets.top
+        button.frame.origin.y = topPadding
+        
+        button.setTitle("Flip all cards", for: .normal)
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.white, for: .highlighted)
+        button.backgroundColor = .systemYellow
+        button.layer.cornerRadius = 10
+        
+        // более новая версия обработчика, аналог .addTarget
+        button.addAction(UIAction(title: "", handler: { action in
+            self.flipAllCards(button)
+        }), for: .touchUpInside)
+        
+        return button
+    }
+    
+    func flipAllCards(_ sender: UIButton) {
+        if flippedCards.isEmpty || flippedCards.count == 1 {
+            for card in cardViews {
+                (card as! FlippableView).isFlipped = true
+                flippedCards.append(card)
+            }
+        } else if !flippedCards.isEmpty {
+            for card in cardViews {
+                (card as! FlippableView).isFlipped = false
+                flippedCards = []
+            }
+        }
     }
 
     @objc func startGame(_ sender: UIButton) {
@@ -199,7 +236,6 @@ class BoardGameController: UIViewController {
         
         return game
     }
-    
     
     /*
     // MARK: - Navigation
