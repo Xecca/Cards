@@ -28,6 +28,7 @@ class BoardGameController: UIViewController {
     private var cardMaxYCoordinate: Int {
         Int(boardGameView.frame.height - cardSize.height)
     }
+    var cardViews = [UIView]()
     
     override func loadView() {
         super.loadView()
@@ -36,6 +37,23 @@ class BoardGameController: UIViewController {
         view.addSubview(startButtonView)
         // добавляем игровое поле на сцену
         view.addSubview(boardGameView)
+    }
+    
+    private func placeCardsOnBoard(_ cards: [UIView]) {
+        // удаляем все имеющиеся на игровом поле карточки
+        for card in cardViews {
+            card.removeFromSuperview()
+        }
+        cardViews = cards
+        // перебираем карточки
+        for card in cardViews {
+            // для каждой карточки генерируем случайные координаты
+            let randomXCoordinate = Int.random(in: 0...cardMaxYCoordinate)
+            let randomYCoordinate = Int.random(in: 0...cardMaxYCoordinate)
+            card.frame.origin = CGPoint(x: randomXCoordinate, y: randomYCoordinate)
+            // размещаем карточку на игровом поле
+            boardGameView.addSubview(card)
+        }
     }
     
     // генерация массива карточек на основе данных Модели
@@ -131,7 +149,9 @@ class BoardGameController: UIViewController {
     }
 
     @objc func startGame(_ sender: UIButton) {
-        print("button was pressed")
+        game = startNewGame()
+        let cards = getCardsBy(modelData: game.cards)
+        placeCardsOnBoard(cards)
     }
     
     private func startNewGame() -> Game {
