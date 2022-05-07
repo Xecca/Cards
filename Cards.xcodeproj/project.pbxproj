@@ -11,6 +11,12 @@
 		95617BF528245A92005AB9D2 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95617BF428245A92005AB9D2 /* Cards.swift */; };
 		9577DF8828259A4C007607E9 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577DF8728259A4C007607E9 /* MainMenuViewController.swift */; };
 		9577DF8A2825AA47007607E9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577DF892825AA47007607E9 /* SettingsController.swift */; };
+		9577DF922826B2DE007607E9 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9577DF8D2826B2DE007607E9 /* circle.png */; };
+		9577DF932826B2DE007607E9 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = 9577DF8E2826B2DE007607E9 /* square.png */; };
+		9577DF942826B2DE007607E9 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 9577DF8F2826B2DE007607E9 /* cross.png */; };
+		9577DF952826B2DE007607E9 /* vertical.rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 9577DF902826B2DE007607E9 /* vertical.rect.png */; };
+		9577DF972826B427007607E9 /* circle.nofilled.png in Resources */ = {isa = PBXBuildFile; fileRef = 9577DF962826B427007607E9 /* circle.nofilled.png */; };
+		9577DF992826C95D007607E9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577DF982826C95D007607E9 /* Settings.swift */; };
 		95C9274228204CC700F7738E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C9274128204CC700F7738E /* AppDelegate.swift */; };
 		95C9274428204CC700F7738E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C9274328204CC700F7738E /* SceneDelegate.swift */; };
 		95C9274928204CC700F7738E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95C9274728204CC700F7738E /* Main.storyboard */; };
@@ -27,6 +33,12 @@
 		95617BF428245A92005AB9D2 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		9577DF8728259A4C007607E9 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		9577DF892825AA47007607E9 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		9577DF8D2826B2DE007607E9 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
+		9577DF8E2826B2DE007607E9 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
+		9577DF8F2826B2DE007607E9 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
+		9577DF902826B2DE007607E9 /* vertical.rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical.rect.png; sourceTree = "<group>"; };
+		9577DF962826B427007607E9 /* circle.nofilled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.nofilled.png; sourceTree = "<group>"; };
+		9577DF982826C95D007607E9 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		95C9273E28204CC700F7738E /* Cards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95C9274128204CC700F7738E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95C9274328204CC700F7738E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,8 +78,21 @@
 			children = (
 				95FF58292824604F007F8C1E /* Card.swift */,
 				95FF582B28246473007F8C1E /* Game.swift */,
+				9577DF982826C95D007607E9 /* Settings.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9577DF8B2826B2CE007607E9 /* figures */ = {
+			isa = PBXGroup;
+			children = (
+				9577DF962826B427007607E9 /* circle.nofilled.png */,
+				9577DF8D2826B2DE007607E9 /* circle.png */,
+				9577DF8F2826B2DE007607E9 /* cross.png */,
+				9577DF8E2826B2DE007607E9 /* square.png */,
+				9577DF902826B2DE007607E9 /* vertical.rect.png */,
+			);
+			path = figures;
 			sourceTree = "<group>";
 		};
 		95C9273528204CC700F7738E = {
@@ -96,6 +121,7 @@
 				95C9274128204CC700F7738E /* AppDelegate.swift */,
 				95C9274328204CC700F7738E /* SceneDelegate.swift */,
 				95C9274A28204CCC00F7738E /* Assets.xcassets */,
+				9577DF8B2826B2CE007607E9 /* figures */,
 				95C9274F28204CCC00F7738E /* Info.plist */,
 			);
 			path = Cards;
@@ -186,9 +212,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9577DF942826B2DE007607E9 /* cross.png in Resources */,
 				95C9274E28204CCC00F7738E /* LaunchScreen.storyboard in Resources */,
+				9577DF952826B2DE007607E9 /* vertical.rect.png in Resources */,
+				9577DF972826B427007607E9 /* circle.nofilled.png in Resources */,
 				95C9274B28204CCC00F7738E /* Assets.xcassets in Resources */,
+				9577DF922826B2DE007607E9 /* circle.png in Resources */,
 				95C9274928204CC700F7738E /* Main.storyboard in Resources */,
+				9577DF932826B2DE007607E9 /* square.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9577DF8828259A4C007607E9 /* MainMenuViewController.swift in Sources */,
+				9577DF992826C95D007607E9 /* Settings.swift in Sources */,
 				95FF582828245E48007F8C1E /* BoardGameController.swift in Sources */,
 				95FF582A2824604F007F8C1E /* Card.swift in Sources */,
 				95FF582C28246473007F8C1E /* Game.swift in Sources */,

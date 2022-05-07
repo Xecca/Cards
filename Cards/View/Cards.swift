@@ -141,22 +141,22 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     func checkBoardersAndReturnCardBack() {
         if self.frame.origin.x + self.frame.width > superview!.frame.width {
             UIView.animate(withDuration: 0.5) {
-                self.frame.origin.x = self.superview!.frame.width - self.frame.width
+                self.frame.origin.x = self.superview!.frame.width - self.frame.width + 5
             }
         }
         if self.frame.origin.x < superview!.frame.origin.x {
             UIView.animate(withDuration: 0.5) {
-                self.frame.origin.x = self.superview!.frame.origin.x - CGFloat(self.margin)
+                self.frame.origin.x = self.superview!.frame.origin.x - CGFloat(self.margin) + 5
             }
         }
         if self.frame.origin.y + self.frame.height > superview!.frame.height {
             UIView.animate(withDuration: 0.5) {
-                self.frame.origin.y = self.superview!.frame.height - self.frame.height
+                self.frame.origin.y = self.superview!.frame.height - self.frame.height + 5
             }
         }
         if self.frame.origin.y + self.frame.height < superview!.frame.origin.y {
             UIView.animate(withDuration: 0.5) {
-                self.frame.origin.y = 0
+                self.frame.origin.y = 5
             }
         }
     }
