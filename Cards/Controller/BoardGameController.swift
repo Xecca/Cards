@@ -10,9 +10,6 @@ import UIKit
 class BoardGameController: UIViewController {
     
     // счетчик переворотов карт
-//    @IBOutlet var flipCounterLabel: UILabel!
-//    @IBOutlet weak var flipCounterView: UIStackView!
-    // счетчик переворотов карт
     @IBOutlet weak var flipCounterLabel: UILabel!
     lazy var flipCounterStack = setFlipCounterView()
     // кнопка для запуска/перезапуска игры
@@ -49,6 +46,13 @@ class BoardGameController: UIViewController {
         view.addSubview(flipButtonView)
         // добавляем игровое поле на сцену
         view.addSubview(boardGameView)
+        
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
     }
     
     private func setFlipCounterView() -> UIStackView {
@@ -158,51 +162,62 @@ class BoardGameController: UIViewController {
         }
         // добавляем всем картам обработчик переворота
         for card in cardViews {
+            
             (card as! FlippableView).flipCompletionHandler = { [self] flippedCard in
                 // переносим карточку вверх иерархии
                 flippedCard.superview?.bringSubviewToFront(flippedCard)
                 
                 // добавляем или удаляем карточку
                 if flippedCard.isFlipped {
+                    changeFlipCounterValue()
                     self.flippedCards.append(flippedCard)
                 } else {
                     if let cardIndex = self.flippedCards.firstIndex(of: flippedCard) {
                         self.flippedCards.remove(at: cardIndex)
                     }
                 }
-                
-                // елси перевернуто 2 карточки
+                // если перевернуто 2 карточки
                 if self.flippedCards.count == 2 {
-                    // получаем карточки из данных модели
-                    let firstCard = game.cards[self.flippedCards.first!.tag]
-                    let secondCard = game.cards[self.flippedCards.last!.tag]
-                    
-                    // если карточки одинаковые
-                    if game.checkCards(firstCard, secondCard) {
-                        // сперва анимировано скрываем их
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.flippedCards.first!.layer.opacity = 0
-                            self.flippedCards.last!.layer.opacity = 0
-                            // после чего удаляем из иерархии
-                        }, completion: { _ in
-                            self.flippedCards.first!.removeFromSuperview()  // иногда здесь вылетает ошибка
-                            self.flippedCards.last!.removeFromSuperview()
-                            self.flippedCards = []
-                        })
-                        // в ином случае
-                    } else {
-                        // переворачиваем карточки рубашкой вверх
-                        for card in self.flippedCards {
-                            (card as! FlippableView).flip()
-                        }
-                    }
+                    compareTwoCards()
                 }
             }
         }
         
         return cardViews
     }
+    
+    private func changeFlipCounterValue() {
+        let currentFlipCount = Int(flipCounterLabel.text ?? "0") ?? 0
+        
+        flipCounterLabel.text = String(currentFlipCount + 1)
+    }
 
+    private func compareTwoCards() {
+        // получаем карточки из данных модели
+        let firstCard = game.cards[self.flippedCards.first!.tag]
+        let secondCard = game.cards[self.flippedCards.last!.tag]
+        
+        // если карточки одинаковые
+        if game.checkCards(firstCard, secondCard) {
+            // сперва анимировано скрываем их
+            UIView.animate(withDuration: 0.3, animations: {
+                self.flippedCards.first!.layer.opacity = 0
+                self.flippedCards.last!.layer.opacity = 0
+                // после чего удаляем из иерархии
+            }, completion: { _ in
+                self.flippedCards.first!.removeFromSuperview()  // иногда здесь вылетает ошибка
+                self.flippedCards.last!.removeFromSuperview()
+                self.flippedCards = []
+            })
+            // в ином случае
+        } else {
+            // переворачиваем карточки рубашкой вверх
+            for card in self.flippedCards {
+                (card as! FlippableView).flip()
+            }
+        }
+    }
+    
     private func getBoardGameView() -> UIView {
         // отступ игрового поля от ближайших элементов
         let margin: CGFloat = 10
