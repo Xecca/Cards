@@ -8,6 +8,13 @@
 import UIKit
 
 class BoardGameController: UIViewController {
+    
+    // счетчик переворотов карт
+//    @IBOutlet var flipCounterLabel: UILabel!
+//    @IBOutlet weak var flipCounterView: UIStackView!
+    // счетчик переворотов карт
+    @IBOutlet weak var flipCounterLabel: UILabel!
+    lazy var flipCounterStack = setFlipCounterView()
     // кнопка для запуска/перезапуска игры
     lazy var startButtonView = getStartButtonView()
     // кнопка для переворота всех карточек
@@ -35,6 +42,7 @@ class BoardGameController: UIViewController {
     override func loadView() {
         super.loadView()
         
+        view.addSubview(flipCounterStack)
         // добавляем кнопку на сцену
         view.addSubview(startButtonView)
         // добавляем кнопку переворота на сцену
@@ -42,6 +50,63 @@ class BoardGameController: UIViewController {
         // добавляем игровое поле на сцену
         view.addSubview(boardGameView)
     }
+    
+    private func setFlipCounterView() -> UIStackView {
+        let flipCounterStackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 80, height: 21))
+        
+        flipCounterStackView.axis = .horizontal
+        flipCounterStackView.alignment = .firstBaseline // .fill .leading .firstBaseline .center .trailing .lastBaseline
+        flipCounterStackView.distribution = .fill // . fill .fillEqually .fillProportionally .equalSpacing .equalCentering
+        flipCounterStackView.spacing = 10
+
+        let label = UILabel()
+        let counterLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        
+        label.text = "Flips:"
+        counterLabel.text = "0"
+        counterLabel.textAlignment = .left
+        flipCounterStackView.addArrangedSubview(label)
+        flipCounterStackView.addArrangedSubview(counterLabel)
+        
+        flipCounterStackView.center.x = view.center.x - 125
+        flipCounterStackView.center.y = 120
+        
+        flipCounterLabel = counterLabel
+        
+        return flipCounterStackView
+    }
+    
+    private func getStartButtonView() -> UIButton {
+        // 1. Создаем кнопку
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
+        // 2. Изменяем положение кнопки
+        button.center.x = view.center.x
+        
+        // получаем доступ к текущему окну
+        let window = UIApplication.shared.windows[0]
+        // определяем отступ сверху от границ окна до Safe Area
+        let topPadding = window.safeAreaInsets.top + 50
+        // устанавливаем координату Y кнопки в соответствии с отступом
+        button.frame.origin.y = topPadding
+        
+        // 3. Настраиваем внешний вид кнопки
+        // устанавливаем текст
+        button.setTitle("Start game", for: .normal)
+        // устанавливаем цвет текста для обычного (не нажатого) состояния
+        button.setTitleColor(.black, for: .normal)
+        // устанавливаем цвет текста для нажатого состояния
+        button.setTitleColor(.gray, for: .highlighted)
+        // устанавливаем фоновый цвет
+        button.backgroundColor = .systemGray4
+        // скругляем углы
+        button.layer.cornerRadius = 10
+        
+        // подключаем обработчик нажатия на кнопку
+        button.addTarget(nil, action: #selector(startGame(_:)), for: .touchUpInside)
+        
+        return button
+    }
+
     
     private func setPairsCardsCount() -> Int {
         if UserDefaults.standard.object(forKey: "Pairs cards count") == nil {
@@ -164,38 +229,7 @@ class BoardGameController: UIViewController {
         
         return boardView
     }
-    
-    private func getStartButtonView() -> UIButton {
-        // 1. Создаем кнопку
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
-        // 2. Изменяем положение кнопки
-        button.center.x = view.center.x
         
-        // получаем доступ к текущему окну
-        let window = UIApplication.shared.windows[0]
-        // определяем отступ сверху от границ окна до Safe Area
-        let topPadding = window.safeAreaInsets.top + 50
-        // устанавливаем координату Y кнопки в соответствии с отступом
-        button.frame.origin.y = topPadding
-        
-        // 3. Настраиваем внешний вид кнопки
-        // устанавливаем текст
-        button.setTitle("Start game", for: .normal)
-        // устанавливаем цвет текста для обычного (не нажатого) состояния
-        button.setTitleColor(.black, for: .normal)
-        // устанавливаем цвет текста для нажатого состояния
-        button.setTitleColor(.gray, for: .highlighted)
-        // устанавливаем фоновый цвет
-        button.backgroundColor = .systemGray4
-        // скругляем углы
-        button.layer.cornerRadius = 10
-        
-        // подключаем обработчик нажатия на кнопку
-        button.addTarget(nil, action: #selector(startGame(_:)), for: .touchUpInside)
-        
-        return button
-    }
-    
     private func getflipAllCardsButtonView() -> UIButton {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
         button.center.x = view.center.x + 120
