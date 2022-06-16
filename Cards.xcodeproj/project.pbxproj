@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95148C0D285B49160044A685 /* Cards.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95148C0B285B49160044A685 /* Cards.xcdatamodeld */; };
 		95617BF328245A89005AB9D2 /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95617BF228245A89005AB9D2 /* Shapes.swift */; };
 		95617BF528245A92005AB9D2 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95617BF428245A92005AB9D2 /* Cards.swift */; };
 		9577DF8828259A4C007607E9 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577DF8728259A4C007607E9 /* MainMenuViewController.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		95148C0C285B49160044A685 /* Cards.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cards.xcdatamodel; sourceTree = "<group>"; };
 		95617BF228245A89005AB9D2 /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 		95617BF428245A92005AB9D2 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		9577DF8728259A4C007607E9 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				95C9274A28204CCC00F7738E /* Assets.xcassets */,
 				9577DF8B2826B2CE007607E9 /* figures */,
 				95C9274F28204CCC00F7738E /* Info.plist */,
+				95148C0B285B49160044A685 /* Cards.xcdatamodeld */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				9577DF8828259A4C007607E9 /* MainMenuViewController.swift in Sources */,
 				9577DF992826C95D007607E9 /* Settings.swift in Sources */,
 				95FF582828245E48007F8C1E /* BoardGameController.swift in Sources */,
+				95148C0D285B49160044A685 /* Cards.xcdatamodeld in Sources */,
 				95FF582A2824604F007F8C1E /* Card.swift in Sources */,
 				95FF582C28246473007F8C1E /* Game.swift in Sources */,
 				95617BF528245A92005AB9D2 /* Cards.swift in Sources */,
@@ -458,6 +462,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		95148C0B285B49160044A685 /* Cards.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				95148C0C285B49160044A685 /* Cards.xcdatamodel */,
+			);
+			currentVersion = 95148C0C285B49160044A685 /* Cards.xcdatamodel */;
+			path = Cards.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 95C9273628204CC700F7738E /* Project object */;
 }

@@ -12,9 +12,11 @@ enum SettingsKeys: String, CaseIterable {
     case figuresTypesKey = "Figures types"
     case figuresColorsKey = "Figures colors"
     case backSideFiguresKey = "Backside figures"
+    case flipsCount = "Flips count in last game"
+    case cardsCoordinatesAndConditions = ""
+    
 }
 
-// цвета карт
 let cardColor: [String: Bool] = [
     "red": true,
     "green": true,

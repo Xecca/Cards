@@ -13,6 +13,7 @@ protocol FlippableView: UIView {
     func flip()
 }
 
+// MARK: - Card Generation
 class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     
     var isFlipped: Bool = false {

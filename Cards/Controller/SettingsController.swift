@@ -57,7 +57,7 @@ class SettingsController: UITableViewController {
     private func setTypesImagesToButtons() {
         for i in 0..<figureTypeImageNameOn.count {
             figureTypeButtons[i].setImage(UIImage(named: figureTypeImageNameOn[i]!), for: .normal)
-            figureTypeButtons[i]
+//            figureTypeButtons[i]
         }
     }
     

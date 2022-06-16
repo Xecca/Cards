@@ -8,6 +8,17 @@
 import UIKit
 
 class Game {
+//    class Game: NSObject, NSSecureCoding {
+//    func encode(with coder: NSCoder) {
+//        coder.encode(cards, forKey: "Game")
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        let mCards = coder.decodeObject(of: [NSArray.self, cards], forKey: "Card")
+//    }
+    
+//    public static var supportsSecureCoding = true
+    
     // количество пар уникальных карточек
     var cardsCount = 0
     // массив сгенерированных карточек

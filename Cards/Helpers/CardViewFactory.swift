@@ -33,7 +33,7 @@ class CardViewFactory {
     func getViewColorBy(modelColor: CardColor) -> UIColor {
         switch modelColor {
         case .red:
-            return .green
+            return .red
         case .green:
             return .green
         case .black:

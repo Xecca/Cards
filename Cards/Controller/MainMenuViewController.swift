@@ -6,12 +6,20 @@
 //
 
 import UIKit
+import CoreData
 
 class MainMenuViewController: UIViewController {
+    
+//    var container: NSPersistentContainer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+//        guard container != nil else {
+//            fatalError("This view needs a persisten container.")
+//        }
+//
+//        print("The persisten container is available.")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,14 +43,17 @@ class MainMenuViewController: UIViewController {
             UserDefaults.standard.set(cardColor, forKey: SettingsKeys.figuresColorsKey.rawValue)
         }
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+//         Get the new view controller using segue.destination.
+//         Pass the selected object to the new view controller.
+//        if let nextVC = segue.destination as? BoardGameController {
+//            nextVC.container = container
+//        }
     }
-    */
+    
 
 }

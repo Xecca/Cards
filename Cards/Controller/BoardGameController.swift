@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 class BoardGameController: UIViewController {
+    
+//    var container: NSPersistentContainer!
+//    var cards: [NSManagedObject] = []
     
     // счетчик переворотов карт
     @IBOutlet weak var flipCounterLabel: UILabel!
@@ -18,6 +22,7 @@ class BoardGameController: UIViewController {
     lazy var flipButtonView = getflipAllCardsButtonView()
     // количество пар уникальных карточек
     lazy var cardsPairsCounts = setPairsCardsCount()
+    var cardsInGame: Int = 0
     // сущность "Игра"
     lazy var game: Game = startNewGame()
     // игровое поле
@@ -46,12 +51,31 @@ class BoardGameController: UIViewController {
         view.addSubview(flipButtonView)
         // добавляем игровое поле на сцену
         view.addSubview(boardGameView)
-        
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        
+//        guard container != nil else {
+//            fatalError("This view needs a persisten container.")
+//        }
+//         print("The persisten container is available.")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // save data of the current game
+        print("viewWillDisappear")
+        saveCurrentGame()
+    }
+    
+    private func saveCurrentGame() {
+        
+        // Which data must be saved:
+        // 1. save current flip count
+        // 2. save current coordinates of each card
+        // 3. save current conditions of each card (figures, color, isFlipped
         
     }
     
@@ -110,7 +134,6 @@ class BoardGameController: UIViewController {
         
         return button
     }
-
     
     private func setPairsCardsCount() -> Int {
         if UserDefaults.standard.object(forKey: "Pairs cards count") == nil {
@@ -125,6 +148,9 @@ class BoardGameController: UIViewController {
     }
     
     private func placeCardsOnBoard(_ cards: [UIView]) {
+        // координаты карточки
+        var randomXCoordinate = 0
+        var randomYCoordinate = 0
         // удаляем все имеющиеся на игровом поле карточки
         for card in cardViews {
             card.removeFromSuperview()
@@ -134,8 +160,8 @@ class BoardGameController: UIViewController {
         // перебираем карточки
         for card in cardViews {
             // для каждой карточки генерируем случайные координаты
-            let randomXCoordinate = Int.random(in: 0...cardMaxXCoordinate)
-            let randomYCoordinate = Int.random(in: 0...cardMaxYCoordinate)
+            randomXCoordinate = Int.random(in: 0...cardMaxXCoordinate)
+            randomYCoordinate = Int.random(in: 0...cardMaxYCoordinate)
             card.frame.origin = CGPoint(x: randomXCoordinate, y: randomYCoordinate)
             // размещаем карточку на игровом поле
             boardGameView.addSubview(card)
@@ -209,12 +235,32 @@ class BoardGameController: UIViewController {
                 self.flippedCards.last!.removeFromSuperview()
                 self.flippedCards = []
             })
+            // вычитаем две совпавшие карты из общего количества карт
+            cardsInGame -= 2
             // в ином случае
         } else {
             // переворачиваем карточки рубашкой вверх
             for card in self.flippedCards {
                 (card as! FlippableView).flip()
             }
+        }
+        // проверяем окончание игры
+        checkEndGame()
+    }
+    
+    private func checkEndGame() {
+        if cardsInGame == 0 {
+            print("You Won!")
+            // show an alert with flip's count
+            let alert = UIAlertController(title: "The Game is End!", message: "You found all cards by \(flipCounterLabel.text ?? "0") flips.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            let startNewGame = UIAlertAction(title: "New Game", style: .destructive) { _ in
+                self.startGame(self.startButtonView)
+            }
+            alert.addAction(action)
+            alert.addAction(startNewGame)
+            
+            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -274,14 +320,20 @@ class BoardGameController: UIViewController {
                 (card as! FlippableView).isFlipped = true
                 flippedCards.append(card)
             }
+            let currVal = Int(flipCounterLabel.text ?? "0") ?? 0
+            
+            flipCounterLabel.text = String(currVal + cardsInGame)
+            
         } else if !flippedCards.isEmpty {
             for card in cardViews {
                 (card as! FlippableView).isFlipped = false
                 flippedCards = []
             }
         }
+        
     }
 
+    // MARK: - Start Game
     @objc func startGame(_ sender: UIButton) {
         game = startNewGame()
         let cards = getCardsBy(modelData: game.cards)
@@ -294,17 +346,17 @@ class BoardGameController: UIViewController {
         game.cardsCount = self.cardsPairsCounts
         game.generateCards()
         
+        flipCounterLabel.text = "0"
+        cardsInGame = game.cardsCount * 2
+        
         return game
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+//    // MARK: - Navigation
+//    // In a storyboard-based application, you will often want to do a little preparation before navigation
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destination.
+//        // Pass the selected object to the new view controller.
+//    }
 
 }
