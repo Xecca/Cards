@@ -2,7 +2,7 @@
 //  Cards.swift
 //  Cards
 //
-//  Created by Dreik on 5/5/22.
+//  Created by Dreik on 6/18/22.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ protocol FlippableView: UIView {
 
 // MARK: - Card Generation
 class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
-    
+
     var isFlipped: Bool = false {
         didSet {
             self.setNeedsDisplay()
@@ -140,22 +140,26 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     
     // возвращение карты в пределы игрового поля
     func checkBoardersAndReturnCardBack() {
+        // если попадает за границу игрового поля справа
         if self.frame.origin.x + self.frame.width > superview!.frame.width {
             UIView.animate(withDuration: 0.5) {
-                self.frame.origin.x = self.superview!.frame.width - self.frame.width + 5
+                self.frame.origin.x = self.superview!.frame.width - self.frame.width - 5
             }
         }
-        if self.frame.origin.x < superview!.frame.origin.x {
+        // если попадает за границу игрового поля слева
+        if self.frame.origin.x < superview!.bounds.origin.x {
             UIView.animate(withDuration: 0.5) {
                 self.frame.origin.x = self.superview!.frame.origin.x - CGFloat(self.margin) + 5
             }
         }
-        if self.frame.origin.y + self.frame.height > superview!.frame.height {
+        // если попадает за границу игрового поля снизу
+        if self.frame.origin.y + self.frame.height > superview!.bounds.height {
             UIView.animate(withDuration: 0.5) {
-                self.frame.origin.y = self.superview!.frame.height - self.frame.height + 5
+                self.frame.origin.y = self.superview!.frame.height - self.frame.height - 5
             }
         }
-        if self.frame.origin.y + self.frame.height < superview!.frame.origin.y {
+        // если попадает за границу игрового поля сверху
+        if superview!.bounds.origin.y > self.frame.origin.y {
             UIView.animate(withDuration: 0.5) {
                 self.frame.origin.y = 5
             }
@@ -190,3 +194,4 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

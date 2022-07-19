@@ -2,29 +2,27 @@
 //  Game.swift
 //  Cards
 //
-//  Created by Dreik on 5/5/22.
+//  Created by Dreik on 6/18/22.
 //
 
 import UIKit
 
 class Game {
-//    class Game: NSObject, NSSecureCoding {
-//    func encode(with coder: NSCoder) {
-//        coder.encode(cards, forKey: "Game")
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        let mCards = coder.decodeObject(of: [NSArray.self, cards], forKey: "Card")
-//    }
-    
-//    public static var supportsSecureCoding = true
-    
     // количество пар уникальных карточек
     var cardsCount = 0
     // массив сгенерированных карточек
     var cards = [Card]()
     // количество переворотов карт
     var flipsCount = 0
+//    // количество перевернутых карточек
+//    var flippedCardsCount = 0
+    
+    // создание отдельной карты
+    func createCard(type: CardType, color: CardColor) {
+        let card: Card = (type: type, color: color)
+        
+        cards.append(card)
+    }
     
     // генерация массива случайных карт
     func generateCards() {
