@@ -9,16 +9,16 @@ import Foundation
 import UIKit
 
 protocol CardProtocol {
-    var frontSideView: UIView { get set }
-    var backSideView: UIView { get set }
-    var margin: Int { get }
+//    var frontSideView: UIView { get set }
+//    var backSideView: UIView { get set }
+//    var margin: Int { get }
     var coordinateX: Int32 { get set }
     var coordinateY: Int32 { get set }
-    var cornerRadius: Int32 { get set }
+//    var cornerRadius: Int32 { get set }
     var frontFigureType: String { get set }
     var frontFigureColor: String { get set }
-    var backFigureType: String { get set }
-    var backFigureColor: String { get set }
+//    var backFigureType: String { get set }
+//    var backFigureColor: String { get set }
     
     func getUIColor(colorName: String) -> UIColor
 //    func getBackFigureType(typeName: String) -> FigureType
@@ -45,6 +45,9 @@ enum CardColor: CaseIterable {
     case purple
     case orange
 }
+// координаты карточки
+var coordinateX = 0
+var coordinateY = 0
 
 // игральная карточка
-typealias Card = (type: CardType, color: CardColor)
+typealias Card = (type: CardType, color: CardColor, coordinateX: Int, coordinateY: Int, isFlipped: Bool, tag: Int)

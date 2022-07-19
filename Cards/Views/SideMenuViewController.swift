@@ -14,5 +14,4 @@ class SideMenuViewController: UIViewController {
 
         view.backgroundColor = UIColor(red: 33/255.0, green: 33/255.0, blue: 33/255.0, alpha: 1)
     }
-
 }

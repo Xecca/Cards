@@ -39,7 +39,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         
         setupBorders()
     }
-    
+    // MARK: - Drawing
     override func draw(_ rect: CGRect) {
         // удаляем добавленные ранее дочерние представления
         backSideView.removeFromSuperview()
@@ -108,7 +108,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         
         return view
     }
-    
+    // MARK: - Animations
     func flip() {
         // определяем, между какими представлениями осуществить переход
         let fromView = isFlipped ? frontSideView : backSideView
@@ -132,7 +132,6 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
     }
     
     // MARK: Events
-    
     // точка привязки
     private var anchorPoint: CGPoint = CGPoint(x: 0, y: 0)
     // исходные координаты игральной карты

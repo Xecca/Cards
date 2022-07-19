@@ -32,6 +32,9 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Continue">
                                     <attributedString key="attributedSubtitle"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="continueButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vs4-Bi-p3J"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -85,13 +88,13 @@
         <!--Board Game Controller-->
         <scene sceneID="g4o-hQ-91l">
             <objects>
-                <viewController id="NTw-RO-iXa" customClass="BoardGameController" customModule="Cards" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BoardViewController" id="NTw-RO-iXa" customClass="BoardGameController" customModule="Cards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RHZ-1h-1S6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkC-FU-RC1">
-                                <rect key="frame" x="172" y="108" width="70" height="40"/>
+                                <rect key="frame" x="169.5" y="108" width="75" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="I3p-IC-3TC"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="fKg-ps-Lzv"/>
@@ -99,7 +102,7 @@
                                     <constraint firstAttribute="height" constant="40" id="ud9-cu-Jf9"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Start"/>
+                                <state key="normal" title="New Game"/>
                                 <connections>
                                     <action selector="startButtonPressed:" destination="NTw-RO-iXa" eventType="touchUpInside" id="xIC-rG-3HG"/>
                                 </connections>
