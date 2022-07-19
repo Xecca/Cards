@@ -40,18 +40,23 @@ class BoardGameController: UIViewController {
         
         // adds boardView
         view.addSubview(boardGameView)
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if !game.exampleCards.isEmpty && isContinue == true {
-            continueLastGame()
+            game = continueLastGame()
             print("Continue last game in viewDidLoad")
         }
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        print("viewWillDisappear")
     }
     
     // MARK: - Side Menu Button action
@@ -183,7 +188,7 @@ class BoardGameController: UIViewController {
         // фабрика карточек
         let cardViewFactory = CardViewFactory()
         // перебираем массив карточек из Core Data
-        for (index, cardData) in storeData.enumerated() {
+        for cardData in storeData {
             // создаем только один уникальный экземпляр карты
             let card = cardViewFactory.get(cardData.type, withSize: cardSize, andColor: cardData.color)
             // добавляет tag (по которому происходит сравнение)
@@ -217,7 +222,7 @@ class BoardGameController: UIViewController {
                 // если перевернуто 2 карточки
                 if self.flippedCards.count == 2 {
                     compareTwoCards()
-                    
+
                 } else if self.flippedCards.count > 2 { // если перевернуто больше двух, то переворачиваем все карты рубашкой вверх
                     flipAllCards()
                 }
@@ -301,18 +306,21 @@ class BoardGameController: UIViewController {
     private func placeCardsOnBoardFromLastGame(_ cards: [UIView]) {
         cardViews = cards
         // 0. создать карточки по данным из Core Data
-        
-        // 1. получаем координаты карточки из Core Data
+
+        // 1. перебираем все карточки
         for (i, card) in game.exampleCards.enumerated() {
+            // 2. получаем координаты карточки из Core Data
             print("x: \(card.coordinateX), y: \(card.coordinateY)")
+            // 3. каждой карточке присваиваем координаты из Core Data
             cardViews[i].frame.origin = CGPoint(x: card.coordinateX, y: card.coordinateY)
+            // если карточка была перевернута в прошлой игре, то переворачиваем ее тоже
+            if card.isFlipped {
+                (cardViews[i] as! FlippableView).isFlipped = true
+                flippedCards.append(cardViews[i])
+            }
+            // 4. размещаем карточку на игровом поле
             boardGameView.addSubview(cardViews[i])
         }
-        // 2. перебираем все карточки
-        // 3. каждой карточке присваиваем координаты из Core Data
-        // card.frame.origin = CGPoint(x: GameData.coordinateX, y: GameData.coordinateY)
-        // 4. размещаем карточку на игровом поле
-        // boardGameView.addSubview(card)
     }
     
     // MARK: - Flip All Cards

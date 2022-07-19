@@ -22,7 +22,7 @@ class Game {
         (type: CardType.noFillCircle, color: CardColor.brown, coordinateX: 150, coordinateY: 34, isFlipped: false, tag: 2),
         (type: CardType.square, color: CardColor.green, coordinateX: 200, coordinateY: 139, isFlipped: false, tag: 1),
         (type: CardType.noFillCircle, color: CardColor.brown, coordinateX: 10, coordinateY: 134, isFlipped: false, tag: 2),
-        (type: CardType.circle, color: CardColor.red, coordinateX: 139, coordinateY: 35, isFlipped: false, tag: 0)
+        (type: CardType.circle, color: CardColor.red, coordinateX: 139, coordinateY: 35, isFlipped: true, tag: 0)
     ]
     
     // MARK: - Create a Card
