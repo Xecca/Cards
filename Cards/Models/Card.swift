@@ -21,6 +21,8 @@ protocol CardProtocol {
 //    var backFigureColor: String { get set }
     
     func getUIColor(colorName: String) -> UIColor
+    func getFigureTypeString(type: Card) -> String
+    func getFigureColorString(color: Card) -> String
 //    func getBackFigureType(typeName: String) -> FigureType
 //    func getFrontFigureType(typeName: String) -> FigureType
 }
@@ -51,3 +53,39 @@ var coordinateY = 0
 
 // игральная карточка
 typealias Card = (type: CardType, color: CardColor, coordinateX: Int, coordinateY: Int, isFlipped: Bool, tag: Int)
+
+func getFigureTypeStringFrom(type: Card) -> String {
+    switch type.type {
+    case .fill:
+        return "fill"
+    case .noFillCircle:
+        return "noFillCircle"
+    case .circle:
+        return "circle"
+    case .cross:
+        return "cross"
+    case .square:
+        return "square"
+    }
+}
+
+func getFigureColorStringFrom(color: Card) -> String {
+    switch color.color {
+    case .red:
+        return "red"
+    case .black:
+        return "black"
+    case .brown:
+        return "brown"
+    case .gray:
+        return "gray"
+    case .green:
+        return "green"
+    case .orange:
+        return "orange"
+    case .purple:
+        return "purple"
+    case .yellow:
+        return "yellow"
+    }
+}

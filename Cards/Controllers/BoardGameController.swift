@@ -104,6 +104,11 @@ class BoardGameController: UIViewController {
         
         return game
     }
+    
+    // MARK: - Save Last Game Data
+    private func saveLastGame() {
+        
+    }
 
     // MARK: - Board View
     private func getBoardGameView() -> UIView {

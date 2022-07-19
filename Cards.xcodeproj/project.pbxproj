@@ -22,6 +22,7 @@
 		95692C86285DB06C005C780A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95692C84285DB06C005C780A /* LaunchScreen.storyboard */; };
 		95692C8E285DB473005C780A /* BoardGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95692C8D285DB473005C780A /* BoardGameController.swift */; };
 		95692C91285DB4A4005C780A /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95692C90285DB4A4005C780A /* SettingsController.swift */; };
+		95CB851F28870B0300139B5E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB851E28870B0300139B5E /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		95692C87285DB06C005C780A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95692C8D285DB473005C780A /* BoardGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameController.swift; sourceTree = "<group>"; };
 		95692C90285DB4A4005C780A /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		95CB851E28870B0300139B5E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		95542E892887051E00B143DB /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		95692C6D285DB06A005C780A = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +91,7 @@
 		95692C78285DB06A005C780A /* Cards */ = {
 			isa = PBXGroup;
 			children = (
+				95542E892887051E00B143DB /* Data */,
 				953893B5285DE161007E0447 /* Helpers */,
 				95692C79285DB06A005C780A /* AppDelegate.swift */,
 				95692C7B285DB06A005C780A /* SceneDelegate.swift */,
@@ -130,6 +140,7 @@
 			children = (
 				953893AB285DCC0A007E0447 /* Card.swift */,
 				953893B1285DD8FE007E0447 /* Game.swift */,
+				95CB851E28870B0300139B5E /* Settings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,6 +218,7 @@
 			files = (
 				953893AE285DD594007E0447 /* Shapes.swift in Sources */,
 				953893B7285DE173007E0447 /* CardViewFactory.swift in Sources */,
+				95CB851F28870B0300139B5E /* Settings.swift in Sources */,
 				953893B2285DD8FE007E0447 /* Game.swift in Sources */,
 				95692C7E285DB06A005C780A /* MainMenuViewController.swift in Sources */,
 				955EDD312864953D00AF670F /* SideMenuViewController.swift in Sources */,
