@@ -38,7 +38,7 @@ class SettingsController: UITableViewController {
     private func updateSettingsValues() {
         pairsCardsStepper.value = UserDefaults.standard.object(forKey: SettingsKeys.pairsCardsCountKey.rawValue) as! Double
         pairsCountLabel.text = String(Int(UserDefaults.standard.object(forKey: SettingsKeys.pairsCardsCountKey.rawValue) as! Double))
-//        backsideShapes.selectedSegmentIndex = UserDefaults.standard.object(forKey: SettingsKeys.backSideFiguresKey.rawValue) as! Int
+        backsideShapes.selectedSegmentIndex = UserDefaults.standard.object(forKey: SettingsKeys.backSideFiguresKey.rawValue) as! Int
         // устанавливаем стартовые изображения для типов карт
         setTypesImagesToButtons()
         // устанавливаем стартовые цвета на кнопки
@@ -46,7 +46,9 @@ class SettingsController: UITableViewController {
     }
     
     private func saveSettings() {
+        // сохраняем количество пар карт
         UserDefaults.standard.set(pairsCardsStepper.value, forKey: SettingsKeys.pairsCardsCountKey.rawValue)
+        // сохраняем типы выбранных фигур для обратно стороны карты
         UserDefaults.standard.set(backsideShapes.selectedSegmentIndex, forKey: SettingsKeys.backSideFiguresKey.rawValue)
         // сохраняем выбранные типы
         // ...
