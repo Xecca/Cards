@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class Game {
     // количество пар уникальных карточек
@@ -16,6 +17,8 @@ class Game {
     var flipsCount = 0
 //    // количество перевернутых карточек
 //    var flippedCardsCount = 0
+    // Core Data cards
+    var lastGame: GameData?
     var exampleCards: [Card] = [
         (type: CardType.circle, color: CardColor.red, coordinateX: 0, coordinateY: 5, isFlipped: false, tag: 0),
         (type: CardType.square, color: CardColor.green, coordinateX: 100, coordinateY: 100, isFlipped: true, tag: 1),
@@ -48,16 +51,26 @@ class Game {
     
     // MARK: - Restore cards from Core Data
     // восстановления массива сохраненных в CoreData карт
-    func generateCardsFromCoreData() {
+    func generateCardsFromCoreData(_ lastGame: GameData?) {
         // создаем новый массив для сохраненных карточек
         var cards = [Card]()
         
-        for card in exampleCards {
-            let storedCard = (type: card.type, color: card.color, coordinateX: card.coordinateX, coordinateY: card.coordinateY, isFlipped: card.isFlipped, tag: card.tag)
-            
-            cards.append(storedCard)
-            print(card.type)
+        print("currentGame cards' count: \(lastGame)")
+        
+        guard let card = lastGame?.cards?[0] as? CardData, let cardCoordinateX = card.coordinateX as Int32?, let cardCoordinateY = card.coordinateY as Int32? else {
+            print("Something went wrong in generateCardsFromCoreData!")
+            return
         }
+        let storedCard: Card = (type: exampleCards[0].type, color: exampleCards[0].color, coordinateX: Int(cardCoordinateX), coordinateY: Int(cardCoordinateY), isFlipped: exampleCards[0].isFlipped, tag: exampleCards[0].tag)
+        
+        cards.append(storedCard)
+        print("Succes! The card is added to storedCard!")
+//        for card in exampleCards {
+//            let storedCard = (type: card.type, color: card.color, coordinateX: card.coordinateX, coordinateY: card.coordinateY, isFlipped: card.isFlipped, tag: card.tag)
+//
+//            cards.append(storedCard)
+//            print(card.type)
+//        }
         
         self.cards = cards
     }

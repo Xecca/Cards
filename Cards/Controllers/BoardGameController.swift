@@ -13,6 +13,7 @@ class BoardGameController: UIViewController {
     @IBOutlet var flipCounterLabel: UILabel!
     @IBOutlet weak var startButtonView: UIButton!
     
+    // проверяет, был ли переход по кнопке Continue
     lazy var isContinue = false
     // сущность "Игра"
     lazy var game: Game = startNewGame()
@@ -50,11 +51,13 @@ class BoardGameController: UIViewController {
         super.viewDidLoad()
         
         if !game.exampleCards.isEmpty && isContinue == true {
+            // retrieve data about last game from Core Data
+            loadOrCreateLastGame()
             game = continueLastGame()
             print("Continue last game in viewDidLoad")
             
-            // retrieve data about last game from Core Data
-            loadOrCreateLastGame()
+
+            
         }
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
@@ -63,6 +66,8 @@ class BoardGameController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         // Сохраняем данные текущей игры в CoreData
+        loadOrCreateLastGame()
+        insertCardsDataIntoCoreData()
         // 1. количество переворотов
         // 1.1. время, затраченное на игру
         // 2. Координаты каждой карты
@@ -70,6 +75,79 @@ class BoardGameController: UIViewController {
         // 4.
         
         print("viewWillDisappear")
+    }
+    
+    // MARK: - Core Data
+    // find or create the last game data in Core Data
+    func loadOrCreateLastGame() {
+        let gameName = "Last Game"
+        let gameFetch: NSFetchRequest<GameData> = GameData.fetchRequest()
+        gameFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(GameData.name), gameName)
+        
+        do {
+            let results = try coreDataStack.managedContext.fetch(gameFetch)
+            if results.isEmpty {
+                // Last Game is not found, create Last Game
+                currentGame = GameData(context: coreDataStack.managedContext)
+                currentGame?.name = gameName
+                coreDataStack.saveContext()
+                print("Last Game is not found, create Last Game")
+            } else {
+                // Last Game is found, use Last Game
+                currentGame = results.first
+                print("Last Game is found, use Last Game")
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
+    
+    func insertCardsDataIntoCoreData() {
+        // Insert a new Card entity into Core Data
+        
+        // массив [CardData]
+//        var cardsBeforeAddingToCoreData: [CardData] = []
+        // нужно написать цикл, чтобы добавить все карты из текущей игры в массив CardData
+//        for currentCard in cardViews {
+            // извлечь данные по каждой карте
+//            let card = CardData(context: coreDataStack.managedContext)
+//            card.coordinateX = 5
+//            card.coordinateY = 100
+//            card.isFlipped = true
+//            card.backSideFigure = "circle"
+//            card.frontSideFigure = "circle"
+//            card.frontFigureColor = "red"
+//            cardsBeforeAddingToCoreData.append(card)
+//        }
+        let card = CardData(context: coreDataStack.managedContext)
+        card.coordinateX = 5
+        card.coordinateY = 100
+        card.isFlipped = true
+        card.backSideFigure = "circle"
+        card.frontSideFigure = "circle"
+        card.frontFigureColor = "red"
+        
+        // перед тем, как добавлять карты из текущей игры, нужно очистить карты из предыдущей
+        currentGame?.cards = nil
+        
+        print(card.coordinateX)
+        
+        // Insert the new Card into the GameData's cards set
+        if let gameData = currentGame, let cards = gameData.cards?.mutableCopy() as? NSMutableOrderedSet {
+            cards.add(card)
+            gameData.cards = cards
+            // gameData.cards = cardsBeforeAddingToCoreData
+            gameData.flipsCount = Int32(flipCounterLabel.text ?? "0") ?? 0
+            gameData.time = 0
+            print("added card data into CoreData!")
+        }
+        
+        // Save the managed object context
+        coreDataStack.saveContext()
+        print("Data saved to Core Data!")
+        
+        // Reload data
+        //
     }
     
     // MARK: - Side Menu Button action
@@ -104,11 +182,14 @@ class BoardGameController: UIViewController {
     // MARK: - Continue Last Game
     private func continueLastGame() -> Game {
         print("Continue Last Game")
-        let game = startNewGame()
+//        let game = startNewGame()
+        let game = Game()
+        loadOrCreateLastGame()
         
-        game.generateCardsFromCoreData()
+        game.cardsCount = currentGame?.cards?.count ?? 0
+        game.generateCardsFromCoreData(currentGame)
     
-        flipCounterLabel.text = "\(game.flipsCount)"
+        flipCounterLabel.text = "\(currentGame?.flipsCount ?? 0)"
         cardsInGame = game.cards.count
         isGameStarted = true
         
@@ -171,30 +252,6 @@ class BoardGameController: UIViewController {
         }
         // добавляем всем картам обработчик переворота
         flipHandler(&cardViews)
-//        for card in cardViews {
-//            (card as! FlippableView).flipCompletionHandler = { [self] flippedCard in
-//                // переносим карточку вверх иерархии
-//                flippedCard.superview?.bringSubviewToFront(flippedCard)
-//
-//                // добавляем или удаляем карточку
-//                if flippedCard.isFlipped {
-//                    changeFlipCounterValue()
-//                    self.flippedCards.append(flippedCard)
-//                } else {
-//                    if let cardIndex = self.flippedCards.firstIndex(of: flippedCard) {
-//                        self.flippedCards.remove(at: cardIndex)
-//                    }
-//                }
-//                // если перевернуто 2 карточки
-//                if self.flippedCards.count == 2 {
-//                    compareTwoCards()
-//
-//                } else if self.flippedCards.count > 2 { // если перевернуто больше двух, то переворачиваем все карты рубашкой вверх
-//                    flipAllCards()
-//                }
-//            }
-//        }
-//        game.flippedCardsCount = flippedCards.count
         
         return cardViews
     }
@@ -325,19 +382,28 @@ class BoardGameController: UIViewController {
         cardViews = cards
         // 0. создать карточки по данным из Core Data
 
-        // 1. перебираем все карточки
-        for (i, card) in game.exampleCards.enumerated() {
-            // 2. получаем координаты карточки из Core Data
-            print("x: \(card.coordinateX), y: \(card.coordinateY)")
-            // 3. каждой карточке присваиваем координаты из Core Data
-            cardViews[i].frame.origin = CGPoint(x: card.coordinateX, y: card.coordinateY)
-            // если карточка была перевернута в прошлой игре, то переворачиваем ее тоже
-            if card.isFlipped {
-                (cardViews[i] as! FlippableView).isFlipped = true
-                flippedCards.append(cardViews[i])
+        guard let currentGameCards = currentGame?.cards as? NSMutableOrderedSet else {
+            return
+        }
+
+        if cardViews.count == currentGameCards.count {
+            // 1. перебираем все карточки
+            for (i, card) in currentGameCards.enumerated() {
+                // 2. получаем координаты карточки из Core Data
+    //            print("x: \(card.coordinateX), y: \(card.coordinateY)")
+                // 3. каждой карточке присваиваем координаты из Core Data
+                guard let card = card as? CardData else {
+                    return
+                }
+                cardViews[i].frame.origin = CGPoint(x: CGFloat(card.coordinateX) , y: CGFloat(card.coordinateY))
+                // если карточка была перевернута в прошлой игре, то переворачиваем ее тоже
+                if card.isFlipped {
+                    (cardViews[i] as! FlippableView).isFlipped = true
+                    flippedCards.append(cardViews[i])
+                }
+                // 4. размещаем карточку на игровом поле
+                boardGameView.addSubview(cardViews[i])
             }
-            // 4. размещаем карточку на игровом поле
-            boardGameView.addSubview(cardViews[i])
         }
     }
     
@@ -375,33 +441,6 @@ class BoardGameController: UIViewController {
             present(alert, animated: true, completion: nil)
         }
     }
-    
-    // MARK: - Core Data
-    // find or create the last game data in Core Data
-    func loadOrCreateLastGame() {
-        let gameName = "Last Game"
-        let gameFetch: NSFetchRequest<GameData> = GameData.fetchRequest()
-        
-        gameFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(GameData.name), gameName)
-        
-        do {
-            let results = try coreDataStack.managedContext.fetch(gameFetch)
-            if results.isEmpty {
-                // Last Game is not found, create Last Game
-                currentGame = GameData(context: coreDataStack.managedContext)
-                currentGame?.name = gameName
-                coreDataStack.saveContext()
-                print("Last Game is not found, create Last Game")
-            } else {
-                // Last Game is found, use Last Game
-                currentGame = results.first
-                print("Last Game is found, use Last Game")
-            }
-        } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
-        }
-    }
-    
     
     /*
     // MARK: - Navigation
