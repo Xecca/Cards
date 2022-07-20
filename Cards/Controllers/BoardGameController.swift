@@ -35,7 +35,9 @@ class BoardGameController: UIViewController {
     var isGameStarted: Bool = false
     var cardViews = [UIView]()
     private var flippedCards = [UIView]()
+    // Core Data
     lazy var coreDataStack = CoreDataStack(modelName: "Cards")
+    var currentGame: GameData?
     
     override func loadView() {
         super.loadView()
@@ -50,6 +52,27 @@ class BoardGameController: UIViewController {
         if !game.exampleCards.isEmpty && isContinue == true {
             game = continueLastGame()
             print("Continue last game in viewDidLoad")
+            
+            // retrieve data about last game from Core Data
+            let gameName = "Last Game"
+            let gameFetch: NSFetchRequest<GameData> = GameData.fetchRequest()
+            
+            gameFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(GameData.name), gameName)
+            
+            do {
+                let results = try coreDataStack.managedContext.fetch(gameFetch)
+                if results.isEmpty {
+                    // Last Game is not found, create Last Game
+                    currentGame = GameData(context: coreDataStack.managedContext)
+                    currentGame?.name = gameName
+                    coreDataStack.saveContext()
+                } else {
+                    // Last Game is found, use Last Game
+                    currentGame = results.first
+                }
+            } catch let error as NSError {
+                print("Fetch error: \(error) description: \(error.userInfo)")
+            }
         }
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
