@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CardData" representedClassName="CardData" syncable="YES">
+        <attribute name="backSideFigure" optional="YES" attributeType="String"/>
+        <attribute name="coordinateX" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="coordinateY" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="frontFigureColor" optional="YES" attributeType="String"/>
+        <attribute name="frontSideFigure" optional="YES" attributeType="String"/>
+        <attribute name="isFlipped" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameData" inverseName="cards" inverseEntity="GameData"/>
+    </entity>
+    <entity name="GameData" representedClassName="GameData" syncable="YES">
+        <attribute name="flipsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="time" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CardData" inverseName="game" inverseEntity="CardData"/>
+    </entity>
+    <elements>
+        <element name="GameData" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="CardData" positionX="228.6640625" positionY="6.33984375" width="128" height="148"/>
+    </elements>
+</model>

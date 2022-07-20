@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class BoardGameController: UIViewController {
 
@@ -34,6 +35,7 @@ class BoardGameController: UIViewController {
     var isGameStarted: Bool = false
     var cardViews = [UIView]()
     private var flippedCards = [UIView]()
+    lazy var coreDataStack = CoreDataStack(modelName: "Cards")
     
     override func loadView() {
         super.loadView()
@@ -55,6 +57,12 @@ class BoardGameController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        // Сохраняем данные текущей игры в CoreData
+        // 1. количество переворотов
+        // 1.1. время, затраченное на игру
+        // 2. Координаты каждой карты
+        // 3. Цвета и тип фигуры лицевой стороны карты
+        // 4.
         
         print("viewWillDisappear")
     }
