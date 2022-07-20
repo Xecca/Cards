@@ -55,9 +55,6 @@ class BoardGameController: UIViewController {
             loadOrCreateLastGame()
             game = continueLastGame()
             print("Continue last game in viewDidLoad")
-            
-
-            
         }
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
@@ -72,8 +69,6 @@ class BoardGameController: UIViewController {
         // 1.1. время, затраченное на игру
         // 2. Координаты каждой карты
         // 3. Цвета и тип фигуры лицевой стороны карты
-        // 4.
-        
         print("viewWillDisappear")
     }
     
@@ -145,7 +140,7 @@ class BoardGameController: UIViewController {
         // Save the managed object context
         coreDataStack.saveContext()
         print("Data saved to Core Data!")
-        
+
         // Reload data
         //
     }
