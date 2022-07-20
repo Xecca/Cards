@@ -54,25 +54,7 @@ class BoardGameController: UIViewController {
             print("Continue last game in viewDidLoad")
             
             // retrieve data about last game from Core Data
-            let gameName = "Last Game"
-            let gameFetch: NSFetchRequest<GameData> = GameData.fetchRequest()
-            
-            gameFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(GameData.name), gameName)
-            
-            do {
-                let results = try coreDataStack.managedContext.fetch(gameFetch)
-                if results.isEmpty {
-                    // Last Game is not found, create Last Game
-                    currentGame = GameData(context: coreDataStack.managedContext)
-                    currentGame?.name = gameName
-                    coreDataStack.saveContext()
-                } else {
-                    // Last Game is found, use Last Game
-                    currentGame = results.first
-                }
-            } catch let error as NSError {
-                print("Fetch error: \(error) description: \(error.userInfo)")
-            }
+            loadOrCreateLastGame()
         }
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .done, target: self, action: #selector(didTapMenuButton))
@@ -393,6 +375,33 @@ class BoardGameController: UIViewController {
             present(alert, animated: true, completion: nil)
         }
     }
+    
+    // MARK: - Core Data
+    // find or create the last game data in Core Data
+    func loadOrCreateLastGame() {
+        let gameName = "Last Game"
+        let gameFetch: NSFetchRequest<GameData> = GameData.fetchRequest()
+        
+        gameFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(GameData.name), gameName)
+        
+        do {
+            let results = try coreDataStack.managedContext.fetch(gameFetch)
+            if results.isEmpty {
+                // Last Game is not found, create Last Game
+                currentGame = GameData(context: coreDataStack.managedContext)
+                currentGame?.name = gameName
+                coreDataStack.saveContext()
+                print("Last Game is not found, create Last Game")
+            } else {
+                // Last Game is found, use Last Game
+                currentGame = results.first
+                print("Last Game is found, use Last Game")
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
+    
     
     /*
     // MARK: - Navigation
