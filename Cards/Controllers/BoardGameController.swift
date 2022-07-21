@@ -49,8 +49,9 @@ class BoardGameController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if !game.exampleCards.isEmpty && isContinue == true {
+
+        // провераяем по какой кнопке пришли на экран игры
+        if isContinue == true {
             // retrieve data about last game from Core Data
             loadOrCreateLastGame()
             game = continueLastGame()
@@ -101,35 +102,34 @@ class BoardGameController: UIViewController {
         // Insert a new Card entity into Core Data
         
         // массив [CardData]
-//        var cardsBeforeAddingToCoreData: [CardData] = []
-        // нужно написать цикл, чтобы добавить все карты из текущей игры в массив CardData
-//        for currentCard in cardViews {
-            // извлечь данные по каждой карте
-//            let card = CardData(context: coreDataStack.managedContext)
-//            card.coordinateX = 5
-//            card.coordinateY = 100
-//            card.isFlipped = true
-//            card.backSideFigure = "circle"
-//            card.frontSideFigure = "circle"
-//            card.frontFigureColor = "red"
-//            cardsBeforeAddingToCoreData.append(card)
-//        }
-        let card = CardData(context: coreDataStack.managedContext)
-        card.coordinateX = 5
-        card.coordinateY = 100
-        card.isFlipped = true
-        card.backSideFigure = "circle"
-        card.frontSideFigure = "circle"
-        card.frontFigureColor = "red"
+        var cardsBeforeAddingToCoreData: [CardData] = []
+
+        // добавить все карты из текущей игры в массив CardData
+        for cardView in cardViews {
+            let card = CardData(context: coreDataStack.managedContext)
+            
+            card.coordinateX = cardView.coordinateX
+            card.coordinateY = cardView.coordinateY
+            card.isFlipped = true   // need to fix this
+            card.backSideFigure = "circle"  // need to fix this
+            card.frontSideFigure = cardView.frontFigureType
+            card.frontFigureColor = cardView.frontFigureColor
+            
+            cardsBeforeAddingToCoreData.append(card)
+        }
         
         // перед тем, как добавлять карты из текущей игры, нужно очистить карты из предыдущей
         currentGame?.cards = nil
+        print("currentGame.cards.count after emptying: \(currentGame?.cards?.set.count)")
         
-        print(card.coordinateX)
+//        print(card.coordinateX)
         
         // Insert the new Card into the GameData's cards set
         if let gameData = currentGame, let cards = gameData.cards?.mutableCopy() as? NSMutableOrderedSet {
-            cards.add(card)
+            for cardInArr in cardsBeforeAddingToCoreData {
+                cards.add(cardInArr)
+            }
+//            cards.add(card)
             gameData.cards = cards
             // gameData.cards = cardsBeforeAddingToCoreData
             gameData.flipsCount = Int32(flipCounterLabel.text ?? "0") ?? 0
@@ -181,11 +181,17 @@ class BoardGameController: UIViewController {
         let game = Game()
         loadOrCreateLastGame()
         
-        game.cardsCount = currentGame?.cards?.count ?? 0
+        guard let currentGameCard = currentGame?.cards else {
+            return Game()
+        }
+        
+        game.cardsCount = currentGameCard.count
+        print("cards count in ContinueLastGame: \(game.cardsCount)")    // 14
         game.generateCardsFromCoreData(currentGame)
     
         flipCounterLabel.text = "\(currentGame?.flipsCount ?? 0)"
         cardsInGame = game.cards.count
+        
         isGameStarted = true
         
         let cards = getCardsBy(storeData: game.cards)
@@ -327,6 +333,11 @@ class BoardGameController: UIViewController {
             })
             // вычитаем две совпавшие карты из общего количества карт
             cardsInGame -= 2
+            // удаляем совпавшеие карты из cardViews, иначе воспроизводится первоначальное количество карт
+            let firstCardIndex = cardViews.firstIndex(of: flippedCards.first!) ?? 0
+            cardViews.remove(at: firstCardIndex)
+            let secondCardIndex = cardViews.firstIndex(of: flippedCards.last!) ?? 0
+            cardViews.remove(at: secondCardIndex)
             // в ином случае
         } else {
             // переворачиваем карточки рубашкой вверх
@@ -376,6 +387,8 @@ class BoardGameController: UIViewController {
     private func placeCardsOnBoardFromLastGame(_ cards: [UIView]) {
         cardViews = cards
         // 0. создать карточки по данным из Core Data
+        
+        print("Cards count in placeCardsOnBoardFromLastGame: \(cards.count)")
 
         guard let currentGameCards = currentGame?.cards as? NSMutableOrderedSet else {
             return
@@ -485,5 +498,84 @@ class BoardGameController: UIViewController {
     
     enum SafeAreaInsets {
         case top, left, right, bottom
+    }
+}
+
+    // MARK: - Extentions for Card UIView
+extension UIView: CardProtocol {
+    var coordinateX: Int32 {
+        Int32(self.frame.origin.x)
+    }
+    
+    var coordinateY: Int32 {
+        Int32(self.frame.origin.y)
+    }
+    
+    var frontFigureType: String {
+        get {
+            return "circle"
+        }
+        set {
+            
+        }
+    }
+    
+    var frontFigureColor: String {
+        get {
+            return "circle"
+        }
+        set {
+            
+        }
+    }
+    
+    func getUIColor(colorName: String) -> UIColor {
+        .red
+    }
+    
+    func getFigureTypeString(type: Card) -> String {
+        ""
+    }
+    
+    func getFigureColorString(color: Card) -> String {
+        ""
+    }
+    func getFrontFigureType(typeName: String) -> CardType {
+        switch typeName {
+        case "fill":
+            return .fill
+        case "noFillCircle":
+            return .noFillCircle
+        case "circle":
+            return .circle
+        case "cross":
+            return .cross
+        case "square":
+            return .square
+        default:
+            return .circle
+        }
+    }
+    func getFrontFigureColor(colorName: String) -> CardColor {
+        switch colorName {
+        case "red":
+            return .red
+        case "black":
+            return .black
+        case "brown":
+            return .brown
+        case "gray":
+            return .gray
+        case "green":
+            return .green
+        case "orange":
+            return .orange
+        case "purple":
+            return .purple
+        case "yellow":
+            return .yellow
+        default:
+            return .red
+        }
     }
 }

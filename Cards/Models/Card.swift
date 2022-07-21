@@ -11,20 +11,18 @@ import UIKit
 protocol CardProtocol {
 //    var frontSideView: UIView { get set }
 //    var backSideView: UIView { get set }
-//    var margin: Int { get }
-    var coordinateX: Int32 { get set }
-    var coordinateY: Int32 { get set }
-//    var cornerRadius: Int32 { get set }
+    var coordinateX: Int32 { get }
+    var coordinateY: Int32 { get }
     var frontFigureType: String { get set }
     var frontFigureColor: String { get set }
-//    var backFigureType: String { get set }
-//    var backFigureColor: String { get set }
+//    var isFlipped: Bool { get }
     
     func getUIColor(colorName: String) -> UIColor
     func getFigureTypeString(type: Card) -> String
     func getFigureColorString(color: Card) -> String
 //    func getBackFigureType(typeName: String) -> FigureType
-//    func getFrontFigureType(typeName: String) -> FigureType
+    func getFrontFigureType(typeName: String) -> CardType
+    func getFrontFigureColor(colorName: String) -> CardColor
 }
 
 // тип фигуры карт

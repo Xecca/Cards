@@ -55,22 +55,20 @@ class Game {
         // создаем новый массив для сохраненных карточек
         var cards = [Card]()
         
-        print("currentGame cards' count: \(lastGame)")
+        print("currentGame cards' count: \(lastGame?.cards?.set.count ?? 0)")
         
-        guard let card = lastGame?.cards?[0] as? CardData, let cardCoordinateX = card.coordinateX as Int32?, let cardCoordinateY = card.coordinateY as Int32? else {
-            print("Something went wrong in generateCardsFromCoreData!")
-            return
+        if let gameData = lastGame, let cardsFromCoreData = gameData.cards?.mutableCopy() as? NSMutableOrderedSet {
+            for card in cardsFromCoreData {
+                
+                guard let card = card as? CardData else {
+                    return
+                }
+                let storedCard: Card = (type: CardType.square, color: CardColor.red, coordinateX: Int(card.coordinateX), coordinateY: Int(card.coordinateY), isFlipped: card.isFlipped, tag: Int(card.tag))
+                cards.append(storedCard)
+                print("storedCard in generateCardsFromCoreData coordinateX: \(card.coordinateX)")
+            }
         }
-        let storedCard: Card = (type: exampleCards[0].type, color: exampleCards[0].color, coordinateX: Int(cardCoordinateX), coordinateY: Int(cardCoordinateY), isFlipped: exampleCards[0].isFlipped, tag: exampleCards[0].tag)
-        
-        cards.append(storedCard)
         print("Succes! The card is added to storedCard!")
-//        for card in exampleCards {
-//            let storedCard = (type: card.type, color: card.color, coordinateX: card.coordinateX, coordinateY: card.coordinateY, isFlipped: card.isFlipped, tag: card.tag)
-//
-//            cards.append(storedCard)
-//            print(card.type)
-//        }
         
         self.cards = cards
     }

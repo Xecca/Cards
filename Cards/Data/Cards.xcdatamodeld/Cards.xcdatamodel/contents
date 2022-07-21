@@ -7,6 +7,7 @@
         <attribute name="frontFigureColor" optional="YES" attributeType="String"/>
         <attribute name="frontSideFigure" optional="YES" attributeType="String"/>
         <attribute name="isFlipped" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="tag" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameData" inverseName="cards" inverseEntity="GameData"/>
     </entity>
     <entity name="GameData" representedClassName="GameData" syncable="YES">
@@ -17,6 +18,6 @@
     </entity>
     <elements>
         <element name="GameData" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="CardData" positionX="228.6640625" positionY="6.33984375" width="128" height="148"/>
+        <element name="CardData" positionX="228.6640625" positionY="6.33984375" width="128" height="163"/>
     </elements>
 </model>

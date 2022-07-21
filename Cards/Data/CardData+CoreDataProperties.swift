@@ -23,6 +23,7 @@ extension CardData {
     @NSManaged public var frontFigureColor: String?
     @NSManaged public var isFlipped: Bool
     @NSManaged public var game: GameData?
+    @NSManaged public var tag: Int32
 
 }
 
