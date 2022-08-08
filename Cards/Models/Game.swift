@@ -19,14 +19,6 @@ class Game {
 //    var flippedCardsCount = 0
     // Core Data cards
     var lastGame: GameData?
-    var exampleCards: [Card] = [
-        (type: CardType.circle, color: CardColor.red, coordinateX: 0, coordinateY: 5, isFlipped: false, tag: 0),
-        (type: CardType.square, color: CardColor.green, coordinateX: 100, coordinateY: 100, isFlipped: true, tag: 1),
-        (type: CardType.noFillCircle, color: CardColor.brown, coordinateX: 150, coordinateY: 34, isFlipped: false, tag: 2),
-        (type: CardType.square, color: CardColor.green, coordinateX: 200, coordinateY: 139, isFlipped: false, tag: 1),
-        (type: CardType.noFillCircle, color: CardColor.brown, coordinateX: 10, coordinateY: 134, isFlipped: false, tag: 2),
-        (type: CardType.circle, color: CardColor.red, coordinateX: 139, coordinateY: 35, isFlipped: true, tag: 0)
-    ]
     
     // MARK: - Create a Card
     // создание отдельной карты
@@ -63,9 +55,12 @@ class Game {
                 guard let card = card as? CardData else {
                     return
                 }
-                let storedCard: Card = (type: CardType.square, color: CardColor.red, coordinateX: Int(card.coordinateX), coordinateY: Int(card.coordinateY), isFlipped: card.isFlipped, tag: Int(card.tag))
+                print("type of frontFigure in generateCardsFromCoreData = \(String(describing: card.frontSideFigure))")
+                
+                let storedCard: Card = (type: getFrontFigureType(typeName: card.frontSideFigure ?? "square"), color: getFrontFigureColor(colorName: card.frontFigureColor ?? "yellow"), coordinateX: Int(card.coordinateX), coordinateY: Int(card.coordinateY), isFlipped: card.isFlipped, tag: Int(card.tag))
                 cards.append(storedCard)
                 print("storedCard in generateCardsFromCoreData coordinateX: \(card.coordinateX)")
+                
             }
         }
         print("Succes! The card is added to storedCard!")

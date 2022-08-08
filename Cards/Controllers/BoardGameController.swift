@@ -34,7 +34,8 @@ class BoardGameController: UIViewController {
     lazy var cardsPairsCount = setPairsCardsCount()
     var cardsInGame: Int = 0
     var isGameStarted: Bool = false
-    var cardViews = [UIView]()
+//    var cardViews = [UIView]
+     var cardViews = [UIView: Card]()
     private var flippedCards = [UIView]()
     // Core Data
     lazy var coreDataStack = CoreDataStack(modelName: "Cards")
@@ -64,8 +65,9 @@ class BoardGameController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         // Сохраняем данные текущей игры в CoreData
-        loadOrCreateLastGame()
-        insertCardsDataIntoCoreData()
+        
+        saveLastGame()
+        
         // 1. количество переворотов
         // 1.1. время, затраченное на игру
         // 2. Координаты каждой карты
@@ -108,30 +110,40 @@ class BoardGameController: UIViewController {
         for cardView in cardViews {
             let card = CardData(context: coreDataStack.managedContext)
             
-            card.coordinateX = cardView.coordinateX
-            card.coordinateY = cardView.coordinateY
-            card.isFlipped = true   // need to fix this
-            card.backSideFigure = "circle"  // need to fix this
-            card.frontSideFigure = cardView.frontFigureType
-            card.frontFigureColor = cardView.frontFigureColor
+            card.coordinateX = Int32(cardView.key.frame.origin.x)
+            card.coordinateY = Int32(cardView.key.frame.origin.y)
+            // fix this
+            print("card.isFlipped from current game \(cardView.value.isFlipped)")
+            card.isFlipped = cardView.value.isFlipped
+//            card.backSideFigure = cardView.value.backFigure
+            card.backSideFigure = "circle"
+            card.frontSideFigure = getFigureTypeStringFrom(type: cardView.value.type)
+//            card.frontSideFigure = "fill"
+            card.frontFigureColor = getFigureColorStringFrom(color: cardView.value.color)
+            card.tag = Int32(cardView.value.tag)
+            
+            print("Card type in insertCardsDataIntoCoreData before adding: \(String(describing: card.frontSideFigure))")
+            print("Card tag in insertCardsDataIntoCoreData before adding: \(String(describing: card.tag))")
+            print("Card coordinateX in insertCardsDataIntoCoreData before adding: \(String(describing: card.coordinateX))")
             
             cardsBeforeAddingToCoreData.append(card)
         }
         
         // перед тем, как добавлять карты из текущей игры, нужно очистить карты из предыдущей
         currentGame?.cards = nil
-        print("currentGame.cards.count after emptying: \(currentGame?.cards?.set.count)")
+        print("currentGame.cards.count after emptying: \(currentGame?.cards?.set.count ?? 0)")
         
 //        print(card.coordinateX)
         
         // Insert the new Card into the GameData's cards set
         if let gameData = currentGame, let cards = gameData.cards?.mutableCopy() as? NSMutableOrderedSet {
             for cardInArr in cardsBeforeAddingToCoreData {
+                print("cardInArr = \(cardInArr.tag)")
                 cards.add(cardInArr)
             }
 //            cards.add(card)
             gameData.cards = cards
-            // gameData.cards = cardsBeforeAddingToCoreData
+//            gameData.cards = cardsBeforeAddingToCoreData
             gameData.flipsCount = Int32(flipCounterLabel.text ?? "0") ?? 0
             gameData.time = 0
             print("added card data into CoreData!")
@@ -203,6 +215,8 @@ class BoardGameController: UIViewController {
     // MARK: - Save Last Game Data
     private func saveLastGame() {
         
+        loadOrCreateLastGame()
+        insertCardsDataIntoCoreData()
     }
 
     // MARK: - Board View
@@ -234,43 +248,48 @@ class BoardGameController: UIViewController {
     
     // MARK: Cards generation
     // генерация массива карточек на основе данных Модели
-    private func getCardsBy(modelData: [Card]) -> [UIView] {
-        // хранилище для представлений карточек
-        var cardViews = [UIView]()
+    private func getCardsBy(modelData: [Card]) -> [UIView: Card] {
         // фабрика карточек
         let cardViewFactory = CardViewFactory()
+        // хранилище для представлений карточек
+        var cardViewDict: [UIView: Card] = [:]
         // перебираем массив карточек в Модели
         for (index, modelCard) in modelData.enumerated() {
             // добавляем первый экземпляр карты
             let cardOne = cardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
             cardOne.tag = index
-            cardViews.append(cardOne)
+//            cardViews.append(cardOne)
+            // добавляем данные карты в словарь
+            cardViewDict[cardOne] = (type: modelCard.type, color: modelCard.color, coordinateX: modelCard.coordinateX, coordinateY: modelCard.coordinateY, isFlipped: modelCard.isFlipped, tag: index)
             
             // добавляем второй экземпляр карты
             let cardTwo = cardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
             cardTwo.tag = index
-            cardViews.append(cardTwo)
+            // добавляем данные второй карты в словарь
+            cardViewDict[cardTwo] = (type: modelCard.type, color: modelCard.color, coordinateX: modelCard.coordinateX, coordinateY: modelCard.coordinateY, isFlipped: modelCard.isFlipped, tag: index)
         }
         // добавляем всем картам обработчик переворота
-        flipHandler(&cardViews)
+        flipHandler(&cardViewDict)
         
-        return cardViews
+        return cardViewDict
     }
     
     // MARK: - Cards Generation from Last Game
-    private func getCardsBy(storeData: [Card]) -> [UIView] {
+    private func getCardsBy(storeData: [Card]) -> [UIView: Card] {
         // хранилище для представлений карточек
-        var cardViews = [UIView]()
+        var cardViews = [UIView: Card]()
         // фабрика карточек
         let cardViewFactory = CardViewFactory()
         // перебираем массив карточек из Core Data
         for cardData in storeData {
             // создаем только один уникальный экземпляр карты
+            print("card type in getCardsBy from CoreData: \(cardData.type)")
+            
             let card = cardViewFactory.get(cardData.type, withSize: cardSize, andColor: cardData.color)
             // добавляет tag (по которому происходит сравнение)
             // !!! подумать, как можно сделать более оптимальное сравнение
             card.tag = cardData.tag
-            cardViews.append(card)
+            cardViews[card] = cardData
         }
         
         flipHandler(&cardViews)
@@ -280,8 +299,8 @@ class BoardGameController: UIViewController {
     
     // MARK: - Flip handler
     // добавляем всем картам обработчик переворота
-    private func flipHandler(_ cardViews: inout [UIView]) {
-        for card in cardViews {
+    private func flipHandler(_ cardViews: inout [UIView: Card]) {
+        for card in cardViews.keys {
             (card as! FlippableView).flipCompletionHandler = { [self] flippedCard in
                 // переносим карточку вверх иерархии
                 flippedCard.superview?.bringSubviewToFront(flippedCard)
@@ -290,6 +309,7 @@ class BoardGameController: UIViewController {
                 if flippedCard.isFlipped {
                     changeFlipCounterValue()
                     self.flippedCards.append(flippedCard)
+                    self.cardViews[card]?.isFlipped = true
                 } else {
                     if let cardIndex = self.flippedCards.firstIndex(of: flippedCard) {
                         self.flippedCards.remove(at: cardIndex)
@@ -334,10 +354,13 @@ class BoardGameController: UIViewController {
             // вычитаем две совпавшие карты из общего количества карт
             cardsInGame -= 2
             // удаляем совпавшеие карты из cardViews, иначе воспроизводится первоначальное количество карт
-            let firstCardIndex = cardViews.firstIndex(of: flippedCards.first!) ?? 0
-            cardViews.remove(at: firstCardIndex)
-            let secondCardIndex = cardViews.firstIndex(of: flippedCards.last!) ?? 0
-            cardViews.remove(at: secondCardIndex)
+//            let firstCardIndex = cardViews.firstIndex(of: flippedCards.first!) ?? 0
+//            cardViews.remove(at: firstCardIndex)
+            cardViews[flippedCards.first!] = nil
+            cardViews[flippedCards.last!] = nil
+            // Переделать flippedCards в словарь
+//            let secondCardIndex = cardViews.firstIndex(of: flippedCards.last!) ?? 0
+//            cardViews.remove(at: secondCardIndex)
             // в ином случае
         } else {
             // переворачиваем карточки рубашкой вверх
@@ -363,13 +386,13 @@ class BoardGameController: UIViewController {
     }
     
     // MARK: - Put cards on Board
-    private func placeCardsOnBoard(_ cards: [UIView]) {
+    private func placeCardsOnBoard(_ cards: [UIView: Card]) {
         // координаты карточки
         var randomXCoordinate = 0
         var randomYCoordinate = 0
         // удаляем все имеющиеся на игровом поле карточки
         for card in cardViews {
-            card.removeFromSuperview()
+            card.key.removeFromSuperview()
         }
         flippedCards = []
         cardViews = cards
@@ -378,13 +401,13 @@ class BoardGameController: UIViewController {
             // для каждой карточки генерируем случайные координаты
             randomXCoordinate = Int.random(in: 0...cardMaxXCoordinate)
             randomYCoordinate = Int.random(in: 0...cardMaxYCoordinate)
-            card.frame.origin = CGPoint(x: randomXCoordinate, y: randomYCoordinate)
+            card.key.frame.origin = CGPoint(x: randomXCoordinate, y: randomYCoordinate)
             // размещаем карточку на игровом поле
-            boardGameView.addSubview(card)
+            boardGameView.addSubview(card.key)
         }
     }
     
-    private func placeCardsOnBoardFromLastGame(_ cards: [UIView]) {
+    private func placeCardsOnBoardFromLastGame(_ cards: [UIView: Card]) {
         cardViews = cards
         // 0. создать карточки по данным из Core Data
         
@@ -395,22 +418,41 @@ class BoardGameController: UIViewController {
         }
 
         if cardViews.count == currentGameCards.count {
+            // создаем массив view
+            var cardOnlyViews = [UIView]()
+            
+            for card in cardViews {
+                cardOnlyViews.append(card.key)
+            }
+            
             // 1. перебираем все карточки
             for (i, card) in currentGameCards.enumerated() {
                 // 2. получаем координаты карточки из Core Data
     //            print("x: \(card.coordinateX), y: \(card.coordinateY)")
                 // 3. каждой карточке присваиваем координаты из Core Data
+                
                 guard let card = card as? CardData else {
                     return
                 }
-                cardViews[i].frame.origin = CGPoint(x: CGFloat(card.coordinateX) , y: CGFloat(card.coordinateY))
+                
+                print(card.frontSideFigure!)
+                
+                cardOnlyViews[i].frame.origin = CGPoint(x: CGFloat(card.coordinateX) , y: CGFloat(card.coordinateY))
+                
+//                print(cardViews[i].frontFigureType)
+                
+                
                 // если карточка была перевернута в прошлой игре, то переворачиваем ее тоже
-                if card.isFlipped {
-                    (cardViews[i] as! FlippableView).isFlipped = true
-                    flippedCards.append(cardViews[i])
+                if cardViews[cardOnlyViews[i]]?.isFlipped == true {
+                    (cardOnlyViews[i] as! FlippableView).isFlipped = true
+                    print("Should flip the card!")
+                } else {
+                    (cardOnlyViews[i] as! FlippableView).isFlipped = false
+                    print("Should flip the card! But in")
                 }
+                flippedCards.append(cardOnlyViews[i])
                 // 4. размещаем карточку на игровом поле
-                boardGameView.addSubview(cardViews[i])
+                boardGameView.addSubview(cardOnlyViews[i])
             }
         }
     }
@@ -419,15 +461,17 @@ class BoardGameController: UIViewController {
     private func flipAllCards() {
         if flippedCards.isEmpty || flippedCards.count == 1 {
             for card in cardViews {
-                (card as! FlippableView).isFlipped = true
-                flippedCards.append(card)
+                (card.key as! FlippableView).isFlipped = true
+                flippedCards.append(card.key)
+                cardViews[card.key]?.isFlipped = true
             }
             let currVal = Int(flipCounterLabel.text ?? "0") ?? 0
             
             flipCounterLabel.text = String(currVal + cardsInGame)
         } else if !flippedCards.isEmpty {
             for card in cardViews {
-                (card as! FlippableView).isFlipped = false
+                (card.key as! FlippableView).isFlipped = false
+                cardViews[card.key]?.isFlipped = false
             }
             flippedCards = []
         }
@@ -474,8 +518,10 @@ class BoardGameController: UIViewController {
         
         print("Flipp All button pressed.")
     }
-    
+}
+
     // MARK: - Extensions
+extension BoardGameController {
     func getSafeArea(_ area: SafeAreaInsets) -> CGFloat {
         let keyWindow = UIApplication.shared.connectedScenes
             .filter({$0.activationState == .foregroundActive})
@@ -502,80 +548,42 @@ class BoardGameController: UIViewController {
 }
 
     // MARK: - Extentions for Card UIView
-extension UIView: CardProtocol {
-    var coordinateX: Int32 {
-        Int32(self.frame.origin.x)
-    }
-    
-    var coordinateY: Int32 {
-        Int32(self.frame.origin.y)
-    }
-    
-    var frontFigureType: String {
-        get {
-            return "circle"
-        }
-        set {
-            
-        }
-    }
-    
-    var frontFigureColor: String {
-        get {
-            return "circle"
-        }
-        set {
-            
-        }
-    }
-    
-    func getUIColor(colorName: String) -> UIColor {
-        .red
-    }
-    
-    func getFigureTypeString(type: Card) -> String {
-        ""
-    }
-    
-    func getFigureColorString(color: Card) -> String {
-        ""
-    }
-    func getFrontFigureType(typeName: String) -> CardType {
-        switch typeName {
-        case "fill":
-            return .fill
-        case "noFillCircle":
-            return .noFillCircle
-        case "circle":
-            return .circle
-        case "cross":
-            return .cross
-        case "square":
-            return .square
-        default:
-            return .circle
-        }
-    }
-    func getFrontFigureColor(colorName: String) -> CardColor {
-        switch colorName {
-        case "red":
-            return .red
-        case "black":
-            return .black
-        case "brown":
-            return .brown
-        case "gray":
-            return .gray
-        case "green":
-            return .green
-        case "orange":
-            return .orange
-        case "purple":
-            return .purple
-        case "yellow":
-            return .yellow
-        default:
-            return .red
-        }
-    }
-}
+//extension UIView: CardProtocol {
+//
+//    var coordinateX: Int32 {
+//        Int32(self.frame.origin.x)
+//    }
+//
+//    var coordinateY: Int32 {
+//        Int32(self.frame.origin.y)
+//    }
+//
+//    var backSideFigureType: String  {
+//        get {
+////            self.backSideFigureType
+//            "backSideFigureType"
+//        }
+//    }
+//
+////    var frontFigureColor: String {
+////        get {
+//////            self.frontFigureColor
+////            "red"
+////        }
+////        set {
+////            newValue
+////        }
+////    }
+//
+//    func getUIColor(colorName: String) -> UIColor {
+//        .red
+//    }
+//
+//    func getFigureTypeString(type: Card) -> String {
+//        ""
+//    }
+//
+//    func getFigureColorString(color: Card) -> String {
+//        ""
+//    }
+//}
