@@ -52,7 +52,8 @@ class BoardGameController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        boardGameView.addSubview(timerLabel)
+        // устанавливаем настройки таймера
+        setTimerLabel()
         // провераяем по какой кнопке пришли на экран игры
         if isContinue == true {
             // retrieve data about last game from Core Data
@@ -170,7 +171,7 @@ class BoardGameController: UIViewController {
         game = startNewGame()
         let cards = getCardsBy(modelData: game.cards)
         placeCardsOnBoard(cards)
-        
+
     }
     
     private func startNewGame() -> Game {
@@ -214,6 +215,7 @@ class BoardGameController: UIViewController {
     }
     
     func setTimerLabel() {
+        boardGameView.addSubview(timerLabel)
         timerLabel.isHidden = true
         timerLabel.frame.size.width = 360
         timerLabel.frame.size.height = 150
@@ -222,12 +224,11 @@ class BoardGameController: UIViewController {
         timerLabel.alpha = 0.0
         timerLabel.font = timerLabel.font.withSize(120)
         timerLabel.textColor = .blue
-        
-        boardGameView.bringSubviewToFront(timerLabel)
     }
     
     // Показываем анимацию отсчета
     @objc private func showTimer(_ timerInSeconds: String) {
+        boardGameView.bringSubviewToFront(timerLabel)
         timerLabel.isHidden = false
         // NOTE: устанавливаем позицую label по центру игрового поля
         timerLabel.center.x = view.frame.width - 40
@@ -288,7 +289,6 @@ class BoardGameController: UIViewController {
     
     // MARK: - Save Last Game Data
     private func saveLastGame() {
-        
         loadOrCreateLastGame()
         insertCardsDataIntoCoreData()
     }
@@ -479,9 +479,7 @@ class BoardGameController: UIViewController {
             // размещаем карточку на игровом поле
             boardGameView.addSubview(card.key)
         }
-        
-        // устанавливаем настройки таймера
-        setTimerLabel()
+        showAllCardsAndCounter()
     }
     
     private func placeCardsOnBoardFromLastGame(_ cards: [UIView: Card]) {
@@ -587,7 +585,7 @@ class BoardGameController: UIViewController {
         // try to get only one pair
         
         placeCardsOnBoard(cards)
-        showAllCardsAndCounter()
+        
     }
     
     @IBAction func flipAllButtonPressed(_ sender: UIButton) {
