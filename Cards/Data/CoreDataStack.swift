@@ -11,7 +11,7 @@ import CoreData
 class CoreDataStack {
     private let modelName: String
     lazy var managedContext: NSManagedObjectContext = {
-        return self.storeContainer.viewContext
+        return storeContainer.viewContext
     }()
     
     init(modelName: String) {

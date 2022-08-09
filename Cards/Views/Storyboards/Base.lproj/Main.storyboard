@@ -146,6 +146,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="dnp-1e-iRV"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="flipAllButton" destination="Wdw-fp-UTc" id="Bas-NE-Pe5"/>
                         <outlet property="flipCounterLabel" destination="yQJ-z7-OnS" id="MqK-Mo-LJS"/>
                         <outlet property="startButtonView" destination="qkC-FU-RC1" id="lwh-z8-f5g"/>
                     </connections>

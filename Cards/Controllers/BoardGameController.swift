@@ -12,6 +12,8 @@ class BoardGameController: UIViewController {
 
     @IBOutlet var flipCounterLabel: UILabel!
     @IBOutlet weak var startButtonView: UIButton!
+    @IBOutlet weak var flipAllButton: UIButton!
+    let timerLabel = UILabel()
     
     // проверяет, был ли переход по кнопке Continue
     lazy var isContinue = false
@@ -50,7 +52,7 @@ class BoardGameController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        boardGameView.addSubview(timerLabel)
         // провераяем по какой кнопке пришли на экран игры
         if isContinue == true {
             // retrieve data about last game from Core Data
@@ -168,8 +170,7 @@ class BoardGameController: UIViewController {
         game = startNewGame()
         let cards = getCardsBy(modelData: game.cards)
         placeCardsOnBoard(cards)
-        // check the last game in Core Data
-//        setTheLastGame()
+        
     }
     
     private func startNewGame() -> Game {
@@ -186,10 +187,83 @@ class BoardGameController: UIViewController {
         return game
     }
     
+    private func showAllCardsAndCounter() {
+        print("in showAllCardsAndCounter before dispatchQueue")
+        flipAllCards()
+        flipCounterLabel.text = "0"
+        
+        // NOTE: Выводим анимацию отсчета и в конце переворачиваем карты обратно
+        startButtonView.isEnabled = false
+        flipAllButton.isEnabled = false
+        var counts = 3
+        var i = 1
+        while counts > 0 {
+            perform(#selector(showTimer(_:)), with: "\(counts)", afterDelay: TimeInterval(i))
+            counts -= 1
+            i += 1
+        }
+        perform(#selector(showTimer(_:)), with: "Go!", afterDelay: TimeInterval(i))
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(4500)) {
+            self.flipAllCards()
+            print("after 4 seconds")
+            self.startButtonView.isEnabled = true
+            self.flipAllButton.isEnabled = true
+            self.timerLabel.isHidden = true
+        }
+    }
+    
+    func setTimerLabel() {
+        timerLabel.isHidden = true
+        timerLabel.frame.size.width = 360
+        timerLabel.frame.size.height = 150
+
+        // NOTE: устанавливаем прозрачность и размер шрифта/label
+        timerLabel.alpha = 0.0
+        timerLabel.font = timerLabel.font.withSize(120)
+        timerLabel.textColor = .blue
+        
+        boardGameView.bringSubviewToFront(timerLabel)
+    }
+    
+    // Показываем анимацию отсчета
+    @objc private func showTimer(_ timerInSeconds: String) {
+        timerLabel.isHidden = false
+        // NOTE: устанавливаем позицую label по центру игрового поля
+        timerLabel.center.x = view.frame.width - 40
+        timerLabel.center.y = view.frame.height / 3 - 40
+        timerLabel.text = "\(timerInSeconds)"
+        print("\(timerInSeconds)")
+        
+        UILabel.animate(
+            withDuration: 1.0,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                // устанавливаем прозрачность и размер мяча возвращая их к нормальному состоянию
+                self.timerLabel.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                self.timerLabel.alpha = 1.0
+                self.timerLabel.transform = .identity
+                
+            }
+        )
+//         NOTE: делаем изчезновение label
+        UILabel.animate(
+            withDuration: 0.3,
+            delay: 0.8,
+            options: .curveEaseOut,
+            animations: {
+                // устанавливаем прозрачность и размер label
+                self.timerLabel.transform = CGAffineTransform(scaleX: -0.4, y: -0.4)    // rotate label
+                self.timerLabel.alpha = 0.0
+                self.timerLabel.transform = .identity
+            }
+        )
+    }
+    
     // MARK: - Continue Last Game
     private func continueLastGame() -> Game {
         print("Continue Last Game")
-//        let game = startNewGame()
         let game = Game()
         loadOrCreateLastGame()
         
@@ -405,6 +479,9 @@ class BoardGameController: UIViewController {
             // размещаем карточку на игровом поле
             boardGameView.addSubview(card.key)
         }
+        
+        // устанавливаем настройки таймера
+        setTimerLabel()
     }
     
     private func placeCardsOnBoardFromLastGame(_ cards: [UIView: Card]) {
@@ -440,7 +517,6 @@ class BoardGameController: UIViewController {
                 cardOnlyViews[i].frame.origin = CGPoint(x: CGFloat(card.coordinateX) , y: CGFloat(card.coordinateY))
                 
 //                print(cardViews[i].frontFigureType)
-                
                 
                 // если карточка была перевернута в прошлой игре, то переворачиваем ее тоже
                 if cardViews[cardOnlyViews[i]]?.isFlipped == true {
@@ -511,6 +587,7 @@ class BoardGameController: UIViewController {
         // try to get only one pair
         
         placeCardsOnBoard(cards)
+        showAllCardsAndCounter()
     }
     
     @IBAction func flipAllButtonPressed(_ sender: UIButton) {
@@ -546,44 +623,3 @@ extension BoardGameController {
         case top, left, right, bottom
     }
 }
-
-    // MARK: - Extentions for Card UIView
-//extension UIView: CardProtocol {
-//
-//    var coordinateX: Int32 {
-//        Int32(self.frame.origin.x)
-//    }
-//
-//    var coordinateY: Int32 {
-//        Int32(self.frame.origin.y)
-//    }
-//
-//    var backSideFigureType: String  {
-//        get {
-////            self.backSideFigureType
-//            "backSideFigureType"
-//        }
-//    }
-//
-////    var frontFigureColor: String {
-////        get {
-//////            self.frontFigureColor
-////            "red"
-////        }
-////        set {
-////            newValue
-////        }
-////    }
-//
-//    func getUIColor(colorName: String) -> UIColor {
-//        .red
-//    }
-//
-//    func getFigureTypeString(type: Card) -> String {
-//        ""
-//    }
-//
-//    func getFigureColorString(color: Card) -> String {
-//        ""
-//    }
-//}
