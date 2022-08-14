@@ -7,8 +7,8 @@
 
 import UIKit
 
-class CardViewFactory: UIView {
-    func get(_ shape: CardType, withSize size: CGSize, andColor color: CardColor) -> UIView {
+enum CardViewFactory {
+    static func get(_ shape: CardType, withSize size: CGSize, andColor color: CardColor) -> UIView {
         // на основе размеров определяем фрейм
         let frame = CGRect(origin: .zero, size: size)
         // определяем UI-цвет на основе цвета модели
@@ -30,7 +30,7 @@ class CardViewFactory: UIView {
     }
     
     // преобразуем цвет Модели в цвет Представления
-    func getViewColorBy(modelColor: CardColor) -> UIColor {
+    static func getViewColorBy(modelColor: CardColor) -> UIColor {
         switch modelColor {
         case .red:
             return .red

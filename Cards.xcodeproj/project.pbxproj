@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		950392A228A7B77A00387F25 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950392A128A7B77A00387F25 /* Logger.swift */; };
 		953893AC285DCC0A007E0447 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953893AB285DCC0A007E0447 /* Card.swift */; };
 		953893AE285DD594007E0447 /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953893AD285DD594007E0447 /* Shapes.swift */; };
 		953893B0285DD6C9007E0447 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953893AF285DD6C9007E0447 /* Cards.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		950392A128A7B77A00387F25 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		953893AB285DCC0A007E0447 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		953893AD285DD594007E0447 /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 		953893AF285DD6C9007E0447 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
@@ -69,10 +71,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		950392EF28A91D8200387F25 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
 		953893B5285DE161007E0447 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				953893B6285DE173007E0447 /* CardViewFactory.swift */,
+				950392A128A7B77A00387F25 /* Logger.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -115,6 +125,7 @@
 				95692C7B285DB06A005C780A /* SceneDelegate.swift */,
 				95692C94285DB928005C780A /* Models */,
 				95692C92285DB687005C780A /* Views */,
+				950392EF28A91D8200387F25 /* Presenters */,
 				95692C8F285DB488005C780A /* Controllers */,
 				95692C82285DB06C005C780A /* Assets.xcassets */,
 				95692C87285DB06C005C780A /* Info.plist */,
@@ -249,6 +260,7 @@
 				95CB852C288813EA00139B5E /* GameData+CoreDataProperties.swift in Sources */,
 				95692C91285DB4A4005C780A /* SettingsController.swift in Sources */,
 				95692C7A285DB06A005C780A /* AppDelegate.swift in Sources */,
+				950392A228A7B77A00387F25 /* Logger.swift in Sources */,
 				955EDD332864969B00AF670F /* BoardGameViewController.swift in Sources */,
 				95692C8E285DB473005C780A /* BoardGameController.swift in Sources */,
 				95692C7C285DB06A005C780A /* SceneDelegate.swift in Sources */,

@@ -15,17 +15,12 @@ class BoardGameController: UIViewController {
     @IBOutlet weak var flipAllButton: UIButton!
     let timerLabel = UILabel()
     
-    // проверяет, был ли переход по кнопке Continue
     lazy var isContinue = false
-    // сущность "Игра"
-    lazy var game: Game = startNewGame()
-    // игровое поле
+    lazy var game: Game = getNewGame()
     lazy var boardGameView = getBoardGameView()
-    // размеры карточек
     private var cardSize: CGSize {
         CGSize(width: 80, height: 120)
     }
-    // предельные координаты размещения карточки
     private var cardMaxXCoordinate: Int {
         Int(boardGameView.frame.width - cardSize.width)
     }
@@ -36,7 +31,6 @@ class BoardGameController: UIViewController {
     lazy var cardsPairsCount = setPairsCardsCount()
     var cardsInGame: Int = 0
     var isGameStarted: Bool = false
-//    var cardViews = [UIView]
      var cardViews = [UIView: Card]()
     private var flippedCards = [UIView]()
     // Core Data
@@ -46,7 +40,6 @@ class BoardGameController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        // adds boardView
         view.addSubview(boardGameView)
     }
     
@@ -168,14 +161,13 @@ class BoardGameController: UIViewController {
     
     // MARK: Start New Game
     @objc func startGame(_ sender: UIButton) {
-        game = startNewGame()
+        game = getNewGame()
         let cards = getCardsBy(modelData: game.cards)
         placeCardsOnBoard(cards)
 
     }
     
-    private func startNewGame() -> Game {
-        print("Start New Game")
+    private func getNewGame() -> Game {
         let game = Game()
         
         game.cardsCount = cardsPairsCount
@@ -323,21 +315,19 @@ class BoardGameController: UIViewController {
     // MARK: Cards generation
     // генерация массива карточек на основе данных Модели
     private func getCardsBy(modelData: [Card]) -> [UIView: Card] {
-        // фабрика карточек
-        let cardViewFactory = CardViewFactory()
         // хранилище для представлений карточек
         var cardViewDict: [UIView: Card] = [:]
         // перебираем массив карточек в Модели
         for (index, modelCard) in modelData.enumerated() {
             // добавляем первый экземпляр карты
-            let cardOne = cardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
+            let cardOne = CardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
             cardOne.tag = index
 //            cardViews.append(cardOne)
             // добавляем данные карты в словарь
             cardViewDict[cardOne] = (type: modelCard.type, color: modelCard.color, coordinateX: modelCard.coordinateX, coordinateY: modelCard.coordinateY, isFlipped: modelCard.isFlipped, tag: index)
             
             // добавляем второй экземпляр карты
-            let cardTwo = cardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
+            let cardTwo = CardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
             cardTwo.tag = index
             // добавляем данные второй карты в словарь
             cardViewDict[cardTwo] = (type: modelCard.type, color: modelCard.color, coordinateX: modelCard.coordinateX, coordinateY: modelCard.coordinateY, isFlipped: modelCard.isFlipped, tag: index)
@@ -352,14 +342,12 @@ class BoardGameController: UIViewController {
     private func getCardsBy(storeData: [Card]) -> [UIView: Card] {
         // хранилище для представлений карточек
         var cardViews = [UIView: Card]()
-        // фабрика карточек
-        let cardViewFactory = CardViewFactory()
         // перебираем массив карточек из Core Data
         for cardData in storeData {
             // создаем только один уникальный экземпляр карты
             print("card type in getCardsBy from CoreData: \(cardData.type)")
             
-            let card = cardViewFactory.get(cardData.type, withSize: cardSize, andColor: cardData.color)
+            let card = CardViewFactory.get(cardData.type, withSize: cardSize, andColor: cardData.color)
             // добавляет tag (по которому происходит сравнение)
             // !!! подумать, как можно сделать более оптимальное сравнение
             card.tag = cardData.tag
@@ -580,7 +568,7 @@ class BoardGameController: UIViewController {
     
     // MARK: - Actions
     @IBAction func startButtonPressed(_ sender: UIButton) {
-        game = startNewGame()
+        game = getNewGame()
         let cards = getCardsBy(modelData: game.cards)
         // try to get only one pair
         

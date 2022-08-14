@@ -5,10 +5,9 @@
 //  Created by Dreik on 7/20/22.
 //
 
-import Foundation
 import CoreData
 
-class CoreDataStack {
+final class CoreDataStack {
     private let modelName: String
     lazy var managedContext: NSManagedObjectContext = {
         return storeContainer.viewContext
