@@ -31,7 +31,6 @@ class BoardGameViewController: UIViewController {
     private var cardMaxYCoordinate: Int {
         Int(boardGameView.frame.height - cardSize.height)
     }
-    // количество пар уникальных карточек
     lazy var cardsPairsCount = setPairsCardsCount()
     var cardsInGame: Int = 0
     var isGameStarted: Bool = false
@@ -49,9 +48,9 @@ class BoardGameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // устанавливаем настройки таймера
+        
         setTimerLabel()
-        // провераяем по какой кнопке пришли на экран игры
+        
         if isContinue == true {
             // retrieve data about last game from Core Data
             loadOrCreateLastGame()
@@ -98,24 +97,19 @@ class BoardGameViewController: UIViewController {
         // массив [CardData]
         var cardsBeforeAddingToCoreData: [CardData] = []
         
-        // добавить все карты из текущей игры в массив CardData
+        // add all cards from current gate to the CardData's array
         for cardView in cardViews {
             let card = CardData(context: coreDataStack.managedContext)
             
             card.coordinateX = Int32(cardView.key.frame.origin.x)
             card.coordinateY = Int32(cardView.key.frame.origin.y)
-            // FIXME: -
-            print("card.isFlipped from current game \(cardView.value.isFlipped)")
             card.isFlipped = cardView.value.isFlipped
+            // TODO: - add feature to save backSideFigure to CoreData
             //            card.backSideFigure = cardView.value.backFigure
             card.backSideFigure = "circle"
             card.frontSideFigure = getFigureTypeStringFrom(type: cardView.value.type)
             card.frontFigureColor = getFigureColorStringFrom(color: cardView.value.color)
             card.tag = Int32(cardView.value.tag)
-            
-            print("Card type in insertCardsDataIntoCoreData before adding: \(String(describing: card.frontSideFigure))")
-            print("Card tag in insertCardsDataIntoCoreData before adding: \(String(describing: card.tag))")
-            print("Card coordinateX in insertCardsDataIntoCoreData before adding: \(String(describing: card.coordinateX))")
             
             cardsBeforeAddingToCoreData.append(card)
         }
@@ -140,7 +134,6 @@ class BoardGameViewController: UIViewController {
     // MARK: - Side Menu Button action
     @objc func didTapMenuButton() {
         print("menu batton tapped")
-        //        self.didTapMenuButton()
     }
     
     // MARK: Start New Game
@@ -169,7 +162,7 @@ class BoardGameViewController: UIViewController {
         flipAllCards()
         flipCounterLabel.text = "0"
         
-        // NOTE: Выводим анимацию отсчета и в конце переворачиваем карты обратно
+        // NOTE: Show timer animation and at the end flip all cards back
         startButtonView.isEnabled = false
         flipAllButton.isEnabled = false
         var counts = 3
@@ -195,18 +188,16 @@ class BoardGameViewController: UIViewController {
         timerLabel.isHidden = true
         timerLabel.frame.size.width = 360
         timerLabel.frame.size.height = 150
-        
-        // NOTE: устанавливаем прозрачность и размер шрифта/label
+
         timerLabel.alpha = 0.0
         timerLabel.font = timerLabel.font.withSize(120)
         timerLabel.textColor = .blue
     }
     
-    // Показываем анимацию отсчета
     @objc private func showTimer(_ timerInSeconds: String) {
         boardGameView.bringSubviewToFront(timerLabel)
         timerLabel.isHidden = false
-        // NOTE: устанавливаем позицую label по центру игрового поля
+        // NOTE: - set label's position on the middle of board
         timerLabel.center.x = view.frame.width - 40
         timerLabel.center.y = view.frame.height / 3 - 40
         timerLabel.text = "\(timerInSeconds)"
@@ -217,14 +208,14 @@ class BoardGameViewController: UIViewController {
             delay: 0,
             options: .curveEaseOut,
             animations: {
-                // устанавливаем прозрачность и размер мяча возвращая их к нормальному состоянию
+                // make label appear
                 self.timerLabel.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
                 self.timerLabel.alpha = 1.0
                 self.timerLabel.transform = .identity
                 
             }
         )
-        //         NOTE: делаем изчезновение label
+        // make label disappear
         UILabel.animate(
             withDuration: 0.3,
             delay: 0.8,
@@ -271,25 +262,21 @@ class BoardGameViewController: UIViewController {
     
     // MARK: - Board View
     private func getBoardGameView() -> UIView {
-        // отступ игрового поля от ближайших элементов
         let margin: CGFloat = 10
         let boardView = UIView()
-        
-        // указываем координаты
+        // set coordinates for boardView
         // x
         boardView.frame.origin.x = margin
-        // y
         let topPadding = getSafeArea(.top) + startButtonView.frame.height * 2
+        // y
         boardView.frame.origin.y = topPadding + startButtonView.frame.height + margin
-        
-        // рассчитаем ширину
+        // set width
         boardView.frame.size.width = UIScreen.main.bounds.width - margin * 2
-        // рассчитываем высоту
-        // с учетом нижнего отступа
+        // set height
         let bottomPadding = getSafeArea(.bottom)
-        boardView.frame.size.height = UIScreen.main.bounds.height - boardView.frame.origin.y - margin - bottomPadding
         
-        // изменяем стиль игрового поля
+        boardView.frame.size.height = UIScreen.main.bounds.height - boardView.frame.origin.y - margin - bottomPadding
+        // style
         boardView.layer.cornerRadius = 5
         boardView.backgroundColor = UIColor(red: 0.1, green: 0.9, blue: 0.1, alpha: 0.3)
         
@@ -304,7 +291,7 @@ class BoardGameViewController: UIViewController {
             
             cardOne.tag = index
             cardViewDict[cardOne] = (type: modelCard.type, color: modelCard.color, coordinateX: modelCard.coordinateX, coordinateY: modelCard.coordinateY, isFlipped: modelCard.isFlipped, tag: index)
-
+            
             let cardTwo = CardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
             
             cardTwo.tag = index
@@ -319,7 +306,7 @@ class BoardGameViewController: UIViewController {
     // MARK: - Cards Generation from Last Game
     private func getCardsBy(storeData: [Card]) -> [UIView: Card] {
         var cardViews = [UIView: Card]()
-
+        
         for cardData in storeData {
             let card = CardViewFactory.get(cardData.type, withSize: cardSize, andColor: cardData.color)
             
@@ -351,7 +338,6 @@ class BoardGameViewController: UIViewController {
                 }
                 if self.flippedCards.count == 2 {
                     compareTwoCards()
-                    
                 } else if self.flippedCards.count > 2 {
                     flipAllCards()
                 }
@@ -418,12 +404,12 @@ class BoardGameViewController: UIViewController {
         }
         flippedCards = []
         cardViews = cards
-
+        
         for card in cardViews {
             randomXCoordinate = Int.random(in: 0...cardMaxXCoordinate)
             randomYCoordinate = Int.random(in: 0...cardMaxYCoordinate)
             card.key.frame.origin = CGPoint(x: randomXCoordinate, y: randomYCoordinate)
-
+            
             boardGameView.addSubview(card.key)
         }
         showAllCardsAndCounter()
