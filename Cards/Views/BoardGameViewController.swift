@@ -249,7 +249,7 @@ class BoardGameViewController: UIViewController {
         }
         
         game.cardsCount = currentGameCards.count
-        print("cards count in ContinueLastGame: \(game.cardsCount)")    // 14
+        print("cards count in ContinueLastGame: \(game.cardsCount)")
         game.generateCardsFromCoreData(currentGame)
         
         flipCounterLabel.text = "\(currentGame?.flipsCount ?? 0)"
@@ -455,11 +455,6 @@ class BoardGameViewController: UIViewController {
     }
     
     private func placeCardsOnBoardFromLastGame(_ cards: [UIView: Card]) {
-        //        cardViews = cards
-        // 0. создать карточки по данным из Core Data
-        
-        print("Cards count in placeCardsOnBoardFromLastGame: \(cards.count)")
-        
         guard let currentGameCards = currentGame?.cards as? NSMutableOrderedSet else {
             return
         }
@@ -474,18 +469,15 @@ class BoardGameViewController: UIViewController {
                 
                 if cards[cardForPresent]?.isFlipped == true {
                     (cardForPresent as! FlippableView).isFlipped = true
-                    print("Should flip the card!")
+                    flippedCards.append(cardForPresent)
                 } else {
                     (cardForPresent as! FlippableView).isFlipped = false
-                    print("Should flip the card! But in")
                 }
                 
-                flippedCards.append(cardForPresent)
                 boardGameView.addSubview(cardForPresent)
             }
             cardViews = cards
         }
-        
     }
     
     // MARK: - Flip All Cards
