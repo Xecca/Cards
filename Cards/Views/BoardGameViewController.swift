@@ -188,7 +188,7 @@ class BoardGameViewController: UIViewController {
         timerLabel.isHidden = true
         timerLabel.frame.size.width = 360
         timerLabel.frame.size.height = 150
-
+        
         timerLabel.alpha = 0.0
         timerLabel.font = timerLabel.font.withSize(120)
         timerLabel.textColor = .blue
@@ -286,6 +286,7 @@ class BoardGameViewController: UIViewController {
     // MARK: Cards generation
     private func getCardsBy(modelData: [Card]) -> [UIView: Card] {
         var cardViewDict: [UIView: Card] = [:]
+        
         for (index, modelCard) in modelData.enumerated() {
             let cardOne = CardViewFactory.get(modelCard.type, withSize: cardSize, andColor: modelCard.color)
             
@@ -329,10 +330,11 @@ class BoardGameViewController: UIViewController {
                 // add or delete a card
                 if flippedCard.isFlipped {
                     changeFlipCounterValue()
-                    self.flippedCards.append(flippedCard)
                     self.cardViews[card]?.isFlipped = true
+                    self.flippedCards.append(flippedCard)
                 } else {
                     if let cardIndex = self.flippedCards.firstIndex(of: flippedCard) {
+                        self.cardViews[card]?.isFlipped = false
                         self.flippedCards.remove(at: cardIndex)
                     }
                 }

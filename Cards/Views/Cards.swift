@@ -121,7 +121,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
             // обработчик переворота
             self.flipCompletionHandler?(self)
         })
-        isFlipped = !isFlipped
+        isFlipped.toggle()
     }
     
     func rotateView() {
