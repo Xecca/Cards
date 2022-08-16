@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsController: UITableViewController {
+class SettingsViewController: UITableViewController {
     private var cardColors: [String: Bool] = UserDefaults.standard.object(forKey: SettingsKeys.figuresColorsKey.rawValue) as? [String: Bool] ?? cardColor
     
     @IBOutlet var pairsCardsStepper: UIStepper!

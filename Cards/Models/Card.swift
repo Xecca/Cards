@@ -8,36 +8,6 @@
 import Foundation
 import UIKit
 
-protocol CardProtocol {
-//    var frontSideView: UIView { get set }
-//    var backSideView: UIView { get set }
-//    var coordinateX: Int32 { get }
-//    var coordinateY: Int32 { get }
-    var frontFigureType: String { get set }
-    var frontFigureColor: String { get set }
-    var backSideFigureType: String { get }
-//    var isFlipped: Bool { get }
-    
-    func getUIColor(colorName: String) -> UIColor
-//    func getFigureTypeString(type: Card.Type) -> String
-//    func getFigureColorString(color: Card.color) -> String
-//    func getBackFigureType(typeName: String) -> FigureType
-//    func getFrontFigureType(typeName: String) -> CardType
-//    func getFrontFigureColor(colorName: String) -> CardColor
-}
-
-//struct Card: CardProtocol {
-//    var frontFigureType: String
-//
-//    var frontFigureColor: String
-//
-//    var backSideFigureType: String
-//
-//    func getUIColor(colorName: String) -> UIColor {
-//        <#code#>
-//    }
-//}
-
 // тип фигуры карт
 enum CardType: CaseIterable {
     case circle

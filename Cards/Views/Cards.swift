@@ -62,8 +62,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.black.cgColor
     }
-    
-    // возвращает представление для лицевой стороны карточки
+
     private func getFrontSideView() -> UIView {
         let view = UIView(frame: self.bounds)
         
@@ -83,8 +82,7 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         
         return view
     }
-    
-    // возвращает вью для обратной стороны карточки
+
     private func getBackSideView() -> UIView {
         let view = UIView(frame: self.bounds)
         
@@ -108,6 +106,10 @@ class CardView<ShapeType: ShapeLayerProtocol>: UIView, FlippableView {
         
         return view
     }
+    
+    // MARK: - BackSide View
+    
+    
     // MARK: - Animations
     func flip() {
         // определяем, между какими представлениями осуществить переход

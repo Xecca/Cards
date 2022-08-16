@@ -42,9 +42,7 @@ class Game {
     }
     
     // MARK: - Restore cards from Core Data
-    // восстановления массива сохраненных в CoreData карт
     func generateCardsFromCoreData(_ lastGame: GameData?) {
-        // создаем новый массив для сохраненных карточек
         var cards = [Card]()
         
         print("currentGame cards' count: \(lastGame?.cards?.set.count ?? 0)")
@@ -60,7 +58,6 @@ class Game {
                 let storedCard: Card = (type: getFrontFigureType(typeName: card.frontSideFigure ?? "square"), color: getFrontFigureColor(colorName: card.frontFigureColor ?? "yellow"), coordinateX: Int(card.coordinateX), coordinateY: Int(card.coordinateY), isFlipped: card.isFlipped, tag: Int(card.tag))
                 cards.append(storedCard)
                 print("storedCard in generateCardsFromCoreData coordinateX: \(card.coordinateX)")
-                
             }
         }
         print("Succes! The card is added to storedCard!")

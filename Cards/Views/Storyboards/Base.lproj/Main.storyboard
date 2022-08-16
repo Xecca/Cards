@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="1839.1304347826087" y="93.75"/>
         </scene>
-        <!--Board Game Controller-->
+        <!--Board Game View Controller-->
         <scene sceneID="g4o-hQ-91l">
             <objects>
-                <viewController storyboardIdentifier="BoardViewController" id="NTw-RO-iXa" customClass="BoardGameController" customModule="Cards" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BoardViewController" id="NTw-RO-iXa" customClass="BoardGameViewController" customModule="Cards" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RHZ-1h-1S6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -173,10 +173,10 @@
             </objects>
             <point key="canvasLocation" x="928.98550724637687" y="93.75"/>
         </scene>
-        <!--Settings Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="Gz1-57-U1M">
             <objects>
-                <tableViewController id="Xxy-D6-XCH" customClass="SettingsController" customModule="Cards" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Xxy-D6-XCH" customClass="SettingsViewController" customModule="Cards" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="gOE-5f-SPy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
