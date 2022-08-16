@@ -66,7 +66,7 @@ class Game {
     }
     
     // проверка эквивалентности карточек
-    func checkCards(_ firstCard: Card, _ secondCard: Card) -> Bool {
+    func compareTwoCards(_ firstCard: Card, _ secondCard: Card) -> Bool {
         if firstCard == secondCard {
             return true
         }
