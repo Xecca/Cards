@@ -37,7 +37,7 @@ let cardUIColor: [Int: String] = [
     5: "yellow",
     6: "purple",
     7: "orange"
-    ]
+]
 
 let figureTypeImageNameOn: [Int: String] = [
     0: "circle",

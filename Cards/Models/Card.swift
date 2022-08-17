@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-// тип фигуры карт
 enum CardType: CaseIterable {
     case circle
     case cross
@@ -17,7 +16,6 @@ enum CardType: CaseIterable {
     case noFillCircle
 }
 
-// цвета карт
 enum CardColor: CaseIterable {
     case red
     case green
@@ -28,11 +26,10 @@ enum CardColor: CaseIterable {
     case purple
     case orange
 }
-// координаты карточки
+
 var coordinateX = 0
 var coordinateY = 0
 
-// игральная карточка
 typealias Card = (type: CardType, color: CardColor, coordinateX: Int, coordinateY: Int, isFlipped: Bool, tag: Int)
 
 func getFigureTypeStringFrom(type: CardType) -> String {
