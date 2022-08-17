@@ -25,6 +25,7 @@
 		95692C83285DB06C005C780A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95692C82285DB06C005C780A /* Assets.xcassets */; };
 		95692C86285DB06C005C780A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95692C84285DB06C005C780A /* LaunchScreen.storyboard */; };
 		95692C91285DB4A4005C780A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95692C90285DB4A4005C780A /* SettingsViewController.swift */; };
+		95803A2128AD2D17005120C0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 95803A2028AD2D17005120C0 /* README.md */; };
 		95CB851F28870B0300139B5E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB851E28870B0300139B5E /* Settings.swift */; };
 		95CB85212888021A00139B5E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB85202888021A00139B5E /* CoreDataStack.swift */; };
 		95CB85242888023C00139B5E /* Cards.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95CB85222888023C00139B5E /* Cards.xcdatamodeld */; };
@@ -55,6 +56,7 @@
 		95692C85285DB06C005C780A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95692C87285DB06C005C780A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95692C90285DB4A4005C780A /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		95803A2028AD2D17005120C0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		95CB851E28870B0300139B5E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		95CB85202888021A00139B5E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		95CB85232888023C00139B5E /* Cards.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cards.xcdatamodel; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				950392EF28A91D8200387F25 /* Presenters */,
 				95692C82285DB06C005C780A /* Assets.xcassets */,
 				95692C87285DB06C005C780A /* Info.plist */,
+				95803A2028AD2D17005120C0 /* README.md */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 			files = (
 				95692C86285DB06C005C780A /* LaunchScreen.storyboard in Resources */,
 				95692C83285DB06C005C780A /* Assets.xcassets in Resources */,
+				95803A2128AD2D17005120C0 /* README.md in Resources */,
 				95692C81285DB06A005C780A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
