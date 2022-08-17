@@ -92,12 +92,9 @@ class BoardGameViewController: UIViewController {
     }
     
     func insertCardsDataIntoCoreData() {
-        // Insert a new Card entity into Core Data
-        
-        // массив [CardData]
         var cardsBeforeAddingToCoreData: [CardData] = []
         
-        // add all cards from current gate to the CardData's array
+        // add all cards from current game to the CardData's array
         for cardView in cardViews {
             let card = CardData(context: coreDataStack.managedContext)
             
@@ -114,18 +111,16 @@ class BoardGameViewController: UIViewController {
             cardsBeforeAddingToCoreData.append(card)
         }
         currentGame?.cards = nil
-        print("currentGame.cards.count after emptying: \(currentGame?.cards?.set.count ?? 0)")
         
         // Insert the new Card into the GameData's cards set
         if let gameData = currentGame, let cards = gameData.cards?.mutableCopy() as? NSMutableOrderedSet {
             for cardInArr in cardsBeforeAddingToCoreData {
-                print("cardInArr = \(cardInArr.tag)")
                 cards.add(cardInArr)
             }
             gameData.cards = cards
             gameData.flipsCount = Int32(flipCounterLabel.text ?? "0") ?? 0
             gameData.time = 0
-            print("added card data into CoreData!")
+//            print("added card data into CoreData!")
         }
         coreDataStack.saveContext()
         print("Data saved to Core Data!")
@@ -148,7 +143,7 @@ class BoardGameViewController: UIViewController {
         let game = Game()
         
         game.cardsCount = cardsPairsCount
-        game.generateCards()
+        game.generateRandomCards()
         
         flipCounterLabel.text = "0"
         cardsInGame = game.cardsCount * 2
@@ -158,7 +153,6 @@ class BoardGameViewController: UIViewController {
     }
     
     private func showAllCardsAndCounter() {
-        print("in showAllCardsAndCounter before dispatchQueue")
         flipAllCards()
         flipCounterLabel.text = "0"
         
@@ -176,7 +170,7 @@ class BoardGameViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(4500)) {
             self.flipAllCards()
-            print("after 4 seconds")
+            //            print("after 4 seconds")
             self.startButtonView.isEnabled = true
             self.flipAllButton.isEnabled = true
             self.timerLabel.isHidden = true
@@ -221,7 +215,6 @@ class BoardGameViewController: UIViewController {
             delay: 0.8,
             options: .curveEaseOut,
             animations: {
-                // устанавливаем прозрачность и размер label
                 self.timerLabel.transform = CGAffineTransform(scaleX: -0.4, y: -0.4)    // rotate label
                 self.timerLabel.alpha = 0.0
                 self.timerLabel.transform = .identity
@@ -240,7 +233,6 @@ class BoardGameViewController: UIViewController {
         }
         
         game.cardsCount = currentGameCards.count
-        print("cards count in ContinueLastGame: \(game.cardsCount)")
         game.generateCardsFromCoreData(currentGame)
         
         flipCounterLabel.text = "\(currentGame?.flipsCount ?? 0)"

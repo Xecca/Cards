@@ -9,12 +9,9 @@ import UIKit
 
 enum CardViewFactory {
     static func get(_ shape: CardType, withSize size: CGSize, andColor color: CardColor) -> UIView {
-        // на основе размеров определяем фрейм
         let frame = CGRect(origin: .zero, size: size)
-        // определяем UI-цвет на основе цвета модели
         let viewColor = getViewColorBy(modelColor: color)
         
-        // генерируем и возвращаем карточку
         switch shape {
         case .circle:
             return CardView<CircleShapeLayer>(frame: frame, color: viewColor)
@@ -29,7 +26,6 @@ enum CardViewFactory {
         }
     }
     
-    // преобразуем цвет Модели в цвет Представления
     static func getViewColorBy(modelColor: CardColor) -> UIColor {
         switch modelColor {
         case .red:

@@ -13,9 +13,9 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var pairsCardsStepper: UIStepper!
     @IBOutlet var pairsCountLabel: UILabel!
     @IBOutlet weak var backsideShapes: UISegmentedControl!
-    // формы фигур
+    // figure's shapes
     @IBOutlet var figureTypeButtons: [UIButton]!
-    // цвета фигур
+    // figure's colors
     @IBOutlet var cardColorsButtons: [UIButton]!
     
     override func loadView() {
@@ -31,7 +31,6 @@ class SettingsViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // сохранить все выбранные настройки
         saveSettings()
     }
     
@@ -39,27 +38,25 @@ class SettingsViewController: UITableViewController {
         pairsCardsStepper.value = UserDefaults.standard.object(forKey: SettingsKeys.pairsCardsCountKey.rawValue) as! Double
         pairsCountLabel.text = String(Int(UserDefaults.standard.object(forKey: SettingsKeys.pairsCardsCountKey.rawValue) as! Double))
         backsideShapes.selectedSegmentIndex = UserDefaults.standard.object(forKey: SettingsKeys.backSideFiguresKey.rawValue) as! Int
-        // устанавливаем стартовые изображения для типов карт
+        
         setTypesImagesToButtons()
-        // устанавливаем стартовые цвета на кнопки
         setColorsToButtons()
     }
     
     private func saveSettings() {
-        // сохраняем количество пар карт
+        // save amount of card's pairs
         UserDefaults.standard.set(pairsCardsStepper.value, forKey: SettingsKeys.pairsCardsCountKey.rawValue)
-        // сохраняем типы выбранных фигур для обратно стороны карты
+        // save selected back side figure's types
         UserDefaults.standard.set(backsideShapes.selectedSegmentIndex, forKey: SettingsKeys.backSideFiguresKey.rawValue)
-        // сохраняем выбранные типы
+        // save chosen front figure's types
         // ...
-        // сохраняем выбранные цвета
+        // save chosen front figure's colors
         // ...
     }
     
     private func setTypesImagesToButtons() {
         for i in 0..<figureTypeImageNameOn.count {
             figureTypeButtons[i].setImage(UIImage(named: figureTypeImageNameOn[i]!), for: .normal)
-//            figureTypeButtons[i]
         }
     }
     
@@ -94,25 +91,4 @@ class SettingsViewController: UITableViewController {
         }
         cardColors[cardUIColor[tag]!]?.toggle()
     }
-    
-    // MARK: - Table view data source
-    
-    
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
 }
