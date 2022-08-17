@@ -3,11 +3,11 @@
 ## Overview:
 
 Данное приложение является карточной игрой на память, в ходе которой необходимо за наименьшее количество переворотов карт найти все индентичные пары.  
-<center>
+<p style="text-align:center;">
 <img src="https://github.com/Xecca/Cards/blob/MVP/additional/interface.gif" width="250" height="500" alt="Cards Gameplay">
 <img src="https://github.com/Xecca/Cards/blob/MVP/additional/settings.gif" width="250" height="500" alt="Cards Settings">
 <img src="https://github.com/Xecca/Cards/blob/MVP/additional/restore_game.gif" width="250" height="500" alt="Cards Settings">
-</center>
+</p>
 При начале новой игры карты генерируются случайным образом, создавая пары карт с разными фигурами и их цветами. И также случайным образом располагаются на игровом поле.  
 Рисунок обратной стороны при каждом создании карты генерируется случайным образом, используя UIBezierPath.  
 В игре есть возможность продолжить прерванную игру с того места, на котором она была остановлена. Сохранение последнего состояния игры реализовано с использованием технологии CoreData.  
