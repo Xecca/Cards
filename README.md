@@ -5,6 +5,7 @@
 Данное приложение является карточной игрой на память, в ходе которой необходимо за наименьшее количество переворотов карт найти все индентичные пары.  
 <p style="text-align:center;">
 <img src="https://github.com/Xecca/Cards/blob/MVP/additional/interface.gif" width="250" height="500" alt="Cards Gameplay">
+<img src="https://github.com/Xecca/Cards/blob/MVP/additional/settings.gif" width="250" height="500" alt="Cards Settings">
 </p>
 При начале новой игры карты генерируются случайным образом, создавая пары карт с разными фигурами и их цветами. И также случайным образом располагаются на игровом поле.  
 Рисунок обратной стороны при каждом создании карты генерируется случайным образом, используя UIBezierPath.  
